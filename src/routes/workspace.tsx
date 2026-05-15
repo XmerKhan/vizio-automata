@@ -130,7 +130,7 @@ function WorkspacePage() {
           status: "done", progress: 100, finished_at: new Date().toISOString(),
         }).eq("id", cur.id);
         await supabase.from("generated_files").insert({
-          user_id: user.id, job_id: cur.id, platform: cur.platform,
+          user_id: user!.id, job_id: cur.id, platform: cur.platform as Platform,
           prompt_text: cur.prompt_text,
           url: `seedance://simulated/${cur.id}.mp4`,
         });
