@@ -15,7 +15,7 @@ import {
   RefreshCw, ArrowLeft, Maximize2, Minimize2, Globe, Download,
 } from "lucide-react";
 
-export const Route = createFileRoute("/dashboard/workspace")({ component: WorkspacePage });
+export const Route = createFileRoute("/workspace")({ component: WorkspacePage });
 
 const TARGETS = {
   dreamina: { label: "Dreamina", url: "https://dreamina.capcut.com/ai-tool/home/?type=video", color: "from-pink-500 to-purple-500" },
