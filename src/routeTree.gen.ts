@@ -9,13 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ExtensionRouteImport } from './routes/extension'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
-import { Route as DashboardWorkspaceRouteImport } from './routes/dashboard.workspace'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
 import { Route as DashboardQueueRouteImport } from './routes/dashboard.queue'
 import { Route as DashboardLibraryRouteImport } from './routes/dashboard.library'
@@ -23,6 +23,11 @@ import { Route as DashboardExtensionRouteImport } from './routes/dashboard.exten
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
 
+const WorkspaceRoute = WorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -51,11 +56,6 @@ const IndexRoute = IndexRouteImport.update({
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardWorkspaceRoute = DashboardWorkspaceRouteImport.update({
-  id: '/workspace',
-  path: '/workspace',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
@@ -95,13 +95,13 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/extension': typeof ExtensionRoute
   '/pricing': typeof PricingRoute
+  '/workspace': typeof WorkspaceRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/extension': typeof DashboardExtensionRoute
   '/dashboard/library': typeof DashboardLibraryRoute
   '/dashboard/queue': typeof DashboardQueueRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
-  '/dashboard/workspace': typeof DashboardWorkspaceRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -109,13 +109,13 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/extension': typeof ExtensionRoute
   '/pricing': typeof PricingRoute
+  '/workspace': typeof WorkspaceRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/extension': typeof DashboardExtensionRoute
   '/dashboard/library': typeof DashboardLibraryRoute
   '/dashboard/queue': typeof DashboardQueueRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
-  '/dashboard/workspace': typeof DashboardWorkspaceRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -125,13 +125,13 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/extension': typeof ExtensionRoute
   '/pricing': typeof PricingRoute
+  '/workspace': typeof WorkspaceRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/extension': typeof DashboardExtensionRoute
   '/dashboard/library': typeof DashboardLibraryRoute
   '/dashboard/queue': typeof DashboardQueueRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
-  '/dashboard/workspace': typeof DashboardWorkspaceRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -142,13 +142,13 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/extension'
     | '/pricing'
+    | '/workspace'
     | '/dashboard/admin'
     | '/dashboard/billing'
     | '/dashboard/extension'
     | '/dashboard/library'
     | '/dashboard/queue'
     | '/dashboard/settings'
-    | '/dashboard/workspace'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -156,13 +156,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/extension'
     | '/pricing'
+    | '/workspace'
     | '/dashboard/admin'
     | '/dashboard/billing'
     | '/dashboard/extension'
     | '/dashboard/library'
     | '/dashboard/queue'
     | '/dashboard/settings'
-    | '/dashboard/workspace'
     | '/dashboard'
   id:
     | '__root__'
@@ -171,13 +171,13 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/extension'
     | '/pricing'
+    | '/workspace'
     | '/dashboard/admin'
     | '/dashboard/billing'
     | '/dashboard/extension'
     | '/dashboard/library'
     | '/dashboard/queue'
     | '/dashboard/settings'
-    | '/dashboard/workspace'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -187,10 +187,18 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   ExtensionRoute: typeof ExtensionRoute
   PricingRoute: typeof PricingRoute
+  WorkspaceRoute: typeof WorkspaceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/workspace': {
+      id: '/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -231,13 +239,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/dashboard/workspace': {
-      id: '/dashboard/workspace'
-      path: '/workspace'
-      fullPath: '/dashboard/workspace'
-      preLoaderRoute: typeof DashboardWorkspaceRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/settings': {
@@ -292,7 +293,6 @@ interface DashboardRouteChildren {
   DashboardLibraryRoute: typeof DashboardLibraryRoute
   DashboardQueueRoute: typeof DashboardQueueRoute
   DashboardSettingsRoute: typeof DashboardSettingsRoute
-  DashboardWorkspaceRoute: typeof DashboardWorkspaceRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
@@ -303,7 +303,6 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardLibraryRoute: DashboardLibraryRoute,
   DashboardQueueRoute: DashboardQueueRoute,
   DashboardSettingsRoute: DashboardSettingsRoute,
-  DashboardWorkspaceRoute: DashboardWorkspaceRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -317,7 +316,18 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   ExtensionRoute: ExtensionRoute,
   PricingRoute: PricingRoute,
+  WorkspaceRoute: WorkspaceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
