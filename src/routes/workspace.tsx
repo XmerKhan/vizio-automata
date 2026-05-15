@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,7 +31,9 @@ type Job = {
 type LogEntry = { id: string; ts: number; level: "info" | "ok" | "warn" | "err"; msg: string };
 
 function WorkspacePage() {
-  const { user } = useSession();
+  const { user, session, loading } = useSession();
+  const navigate = useNavigate();
+  useEffect(() => { if (!loading && !session) navigate({ to: "/auth" }); }, [loading, session, navigate]);
   const [platform, setPlatform] = useState<Platform>("dreamina");
   const [jobs, setJobs] = useState<Job[]>([]);
   const [running, setRunning] = useState(false);
