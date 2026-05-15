@@ -6,7 +6,9 @@ import { useSession } from "@/lib/auth";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ListChecks, Film, Zap, Chrome, Activity } from "lucide-react";
+import { ListChecks, Film, Zap, Chrome, Activity, Play, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/dashboard/")({ component: Overview });
 
@@ -54,7 +56,26 @@ function Overview() {
         </Badge>
       </header>
 
-      <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Hero CTA — Enter workspace */}
+      <Link to="/workspace" className="block mt-6 group">
+        <Card className="relative overflow-hidden glass border-0 p-6 md:p-8 glow-purple">
+          <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
+          <div className="relative flex flex-wrap items-center justify-between gap-4">
+            <div className="max-w-xl">
+              <Badge className="btn-gradient text-white border-0 mb-3">Workspace</Badge>
+              <h2 className="font-display text-2xl md:text-3xl font-bold">Connect to Seedance & start automating</h2>
+              <p className="text-muted-foreground mt-2 text-sm">
+                Open the live split-screen workspace — your queue on the left, Dreamina/Seedance on the right.
+              </p>
+            </div>
+            <Button size="lg" className="btn-gradient text-white border-0">
+              <Play className="size-4 mr-2" /> Start automation <ArrowRight className="size-4 ml-2 group-hover:translate-x-0.5 transition" />
+            </Button>
+          </div>
+        </Card>
+      </Link>
+
+      <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((c, i) => (
           <motion.div key={c.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
             <Card className="glass border-0 p-5">
