@@ -14,16 +14,275 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      generated_files: {
+        Row: {
+          created_at: string
+          duration_seconds: number | null
+          id: string
+          job_id: string | null
+          platform: Database["public"]["Enums"]["platform"] | null
+          prompt_text: string | null
+          thumbnail_url: string | null
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          job_id?: string | null
+          platform?: Database["public"]["Enums"]["platform"] | null
+          prompt_text?: string | null
+          thumbnail_url?: string | null
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          job_id?: string | null
+          platform?: Database["public"]["Enums"]["platform"] | null
+          prompt_text?: string | null
+          thumbnail_url?: string | null
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_files_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "queue_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          extension_connected: boolean
+          extension_last_seen: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          extension_connected?: boolean
+          extension_last_seen?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          extension_connected?: boolean
+          extension_last_seen?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      prompts: {
+        Row: {
+          created_at: string
+          id: string
+          platform: Database["public"]["Enums"]["platform"] | null
+          tags: string[] | null
+          text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          platform?: Database["public"]["Enums"]["platform"] | null
+          tags?: string[] | null
+          text: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          platform?: Database["public"]["Enums"]["platform"] | null
+          tags?: string[] | null
+          text?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      queue_jobs: {
+        Row: {
+          created_at: string
+          error: string | null
+          finished_at: string | null
+          id: string
+          platform: Database["public"]["Enums"]["platform"]
+          progress: number
+          prompt_text: string
+          started_at: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          platform?: Database["public"]["Enums"]["platform"]
+          progress?: number
+          prompt_text: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          platform?: Database["public"]["Enums"]["platform"]
+          progress?: number
+          prompt_text?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          id: string
+          plan: Database["public"]["Enums"]["plan_tier"]
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["plan_tier"]
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["plan_tier"]
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usage_tracking: {
+        Row: {
+          day: string
+          id: string
+          prompts_used: number
+          user_id: string
+        }
+        Insert: {
+          day?: string
+          id?: string
+          prompts_used?: number
+          user_id: string
+        }
+        Update: {
+          day?: string
+          id?: string
+          prompts_used?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          auto_download: boolean
+          automation_speed: string
+          default_platform: Database["public"]["Enums"]["platform"]
+          delay_ms: number
+          download_path: string | null
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_download?: boolean
+          automation_speed?: string
+          default_platform?: Database["public"]["Enums"]["platform"]
+          delay_ms?: number
+          download_path?: string | null
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_download?: boolean
+          automation_speed?: string
+          default_platform?: Database["public"]["Enums"]["platform"]
+          delay_ms?: number
+          download_path?: string | null
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      job_status: "pending" | "running" | "done" | "failed" | "cancelled"
+      plan_tier: "free" | "basic" | "premium"
+      platform: "seedance" | "dreamina" | "jimeng"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +409,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      job_status: ["pending", "running", "done", "failed", "cancelled"],
+      plan_tier: ["free", "basic", "premium"],
+      platform: ["seedance", "dreamina", "jimeng"],
+    },
   },
 } as const
