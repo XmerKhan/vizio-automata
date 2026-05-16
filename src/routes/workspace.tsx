@@ -47,8 +47,25 @@ function WorkspacePage() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [phase, setPhase] = useState<Phase>("idle");
   const [extensionConnected, setExtensionConnected] = useState(false);
+  const [accounts, setAccounts] = useState<Record<Platform, { email: string } | null>>({
+    dreamina: null, seedance: null, jimeng: null,
+  });
+  const [completedFiles, setCompletedFiles] = useState<Array<{ id: string; prompt_text: string | null; platform: string | null; created_at: string }>>([]);
+  const [connectOpen, setConnectOpen] = useState(false);
   const logsRef = useRef<HTMLDivElement>(null);
   const tickRef = useRef<number | null>(null);
+
+  // Restore connected accounts (placeholder for Chrome extension session storage)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("seedance.accounts");
+      if (raw) setAccounts(JSON.parse(raw));
+    } catch {}
+  }, []);
+  function persistAccounts(next: Record<Platform, { email: string } | null>) {
+    setAccounts(next);
+    try { localStorage.setItem("seedance.accounts", JSON.stringify(next)); } catch {}
+  }
 
   function log(level: LogEntry["level"], msg: string) {
     setLogs((l) => [...l.slice(-200), { id: crypto.randomUUID(), ts: Date.now(), level, msg }]);
