@@ -79,7 +79,16 @@ function WorkspacePage() {
     setJobs((data as Job[]) ?? []);
   }
 
-  useEffect(() => { load(); }, [user]);
+  async function loadFiles() {
+    if (!user) return;
+    const { data } = await supabase.from("generated_files")
+      .select("id,prompt_text,platform,created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false }).limit(12);
+    setCompletedFiles(data ?? []);
+  }
+
+  useEffect(() => { load(); loadFiles(); }, [user]);
   useEffect(() => { logsRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }); }, [logs]);
 
   useEffect(() => {
