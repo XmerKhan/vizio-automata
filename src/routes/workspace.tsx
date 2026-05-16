@@ -489,6 +489,47 @@ function AutomationMonitor({
           <RenderVisualizer phase={phase} active={!!active && running} />
         </div>
 
+        {/* Completed videos */}
+        <div className="rounded-2xl border border-white/10 bg-black/40 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <div className="font-display font-semibold">Completed videos</div>
+              <div className="text-xs text-muted-foreground">Auto-saved to your Library as the queue finishes.</div>
+            </div>
+            <Link to="/dashboard/library" className="text-xs text-muted-foreground hover:text-foreground">View all →</Link>
+          </div>
+          {completedFiles.length === 0 ? (
+            <div className="text-xs text-muted-foreground text-center py-8 border border-dashed border-white/10 rounded-xl">
+              No completed videos yet.
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <AnimatePresence initial={false}>
+                {completedFiles.map((f) => (
+                  <motion.div
+                    key={f.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="group rounded-xl overflow-hidden border border-white/10 bg-white/[0.02] hover:border-purple-400/30 transition-colors"
+                  >
+                    <div className="aspect-video relative bg-gradient-to-br from-purple-500/30 via-blue-500/20 to-black/40">
+                      <div className="absolute inset-0 grid place-items-center">
+                        <PlayCircle className="size-8 text-white/70 group-hover:text-white transition" />
+                      </div>
+                      <Badge className="absolute top-2 left-2 bg-black/60 border-0 text-[10px] capitalize">{f.platform ?? platform}</Badge>
+                    </div>
+                    <div className="p-2.5">
+                      <div className="text-[11px] line-clamp-2 leading-snug">{f.prompt_text ?? "Untitled"}</div>
+                      <div className="text-[10px] text-muted-foreground mt-1">{new Date(f.created_at).toLocaleTimeString()}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+        </div>
+
         {/* Extension hint */}
         <div className="rounded-xl border border-dashed border-white/10 bg-white/[0.02] p-4 text-xs text-muted-foreground flex items-start gap-3">
           <Radio className="size-4 mt-0.5 text-muted-foreground" />
