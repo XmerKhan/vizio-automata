@@ -8,11 +8,15 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import {
   Play, Pause, SkipForward, RotateCcw, Trash2, Plus,
   Loader2, CheckCircle2, AlertCircle, Clock, Zap, Activity,
   ArrowLeft, Download, Sparkles, Film, CloudDownload, Cpu, Radio,
+  LinkIcon, LogOut, ShieldCheck, PlayCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/workspace")({ component: WorkspacePage });
@@ -43,8 +47,25 @@ function WorkspacePage() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [phase, setPhase] = useState<Phase>("idle");
   const [extensionConnected, setExtensionConnected] = useState(false);
+  const [accounts, setAccounts] = useState<Record<Platform, { email: string } | null>>({
+    dreamina: null, seedance: null, jimeng: null,
+  });
+  const [completedFiles, setCompletedFiles] = useState<Array<{ id: string; prompt_text: string | null; platform: string | null; created_at: string }>>([]);
+  const [connectOpen, setConnectOpen] = useState(false);
   const logsRef = useRef<HTMLDivElement>(null);
   const tickRef = useRef<number | null>(null);
+
+  // Restore connected accounts (placeholder for Chrome extension session storage)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("seedance.accounts");
+      if (raw) setAccounts(JSON.parse(raw));
+    } catch {}
+  }, []);
+  function persistAccounts(next: Record<Platform, { email: string } | null>) {
+    setAccounts(next);
+    try { localStorage.setItem("seedance.accounts", JSON.stringify(next)); } catch {}
+  }
 
   function log(level: LogEntry["level"], msg: string) {
     setLogs((l) => [...l.slice(-200), { id: crypto.randomUUID(), ts: Date.now(), level, msg }]);
@@ -58,13 +79,23 @@ function WorkspacePage() {
     setJobs((data as Job[]) ?? []);
   }
 
-  useEffect(() => { load(); }, [user]);
+  async function loadFiles() {
+    if (!user) return;
+    const { data } = await supabase.from("generated_files")
+      .select("id,prompt_text,platform,created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false }).limit(12);
+    setCompletedFiles(data ?? []);
+  }
+
+  useEffect(() => { load(); loadFiles(); }, [user]);
   useEffect(() => { logsRef.current?.scrollTo({ top: 9e9, behavior: "smooth" }); }, [logs]);
 
   useEffect(() => {
     if (!user) return;
     const ch = supabase.channel("workspace-jobs")
       .on("postgres_changes", { event: "*", schema: "public", table: "queue_jobs", filter: `user_id=eq.${user.id}` }, () => load())
+      .on("postgres_changes", { event: "*", schema: "public", table: "generated_files", filter: `user_id=eq.${user.id}` }, () => loadFiles())
       .subscribe();
     return () => { supabase.removeChannel(ch); };
   }, [user]);
@@ -160,12 +191,17 @@ function WorkspacePage() {
   }
 
   async function startQueue() {
+    if (!accounts[platform]) {
+      toast.error(`Connect your ${TARGETS[platform].label} account first`);
+      setConnectOpen(true);
+      return;
+    }
     if (!pending.length && !active) {
       toast.error("Queue is empty — add prompts first");
       return;
     }
     setRunning(true);
-    log("info", `Automation started — target: ${TARGETS[platform].label}`);
+    log("info", `Automation started — target: ${TARGETS[platform].label} as ${accounts[platform]?.email}`);
     if (typeof window !== "undefined" && window.SeedanceAI?.sendPrompts) {
       window.SeedanceAI.sendPrompts(pending.map((j) => j.prompt_text));
       log("ok", "Handed off to extension bridge");
@@ -213,6 +249,17 @@ function WorkspacePage() {
               {Object.entries(TARGETS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
             </SelectContent>
           </Select>
+          <Button
+            onClick={() => setConnectOpen(true)}
+            variant="outline"
+            className={`h-9 border-white/10 bg-white/5 ${accounts[platform] ? "text-green-300" : ""}`}
+          >
+            {accounts[platform] ? (
+              <><ShieldCheck className="size-4 mr-1.5" /> {accounts[platform]?.email}</>
+            ) : (
+              <><LinkIcon className="size-4 mr-1.5" /> Connect account</>
+            )}
+          </Button>
           {!running ? (
             <Button onClick={startQueue} className="btn-gradient text-white border-0 h-9">
               <Play className="size-4 mr-1.5" /> Run queue
@@ -224,6 +271,23 @@ function WorkspacePage() {
           )}
         </div>
       </header>
+
+      <ConnectAccountDialog
+        open={connectOpen}
+        onOpenChange={setConnectOpen}
+        platform={platform}
+        platformLabel={TARGETS[platform].label}
+        current={accounts[platform]}
+        onConnect={(email) => {
+          persistAccounts({ ...accounts, [platform]: { email } });
+          log("ok", `Connected ${TARGETS[platform].label} account: ${email}`);
+          toast.success(`${TARGETS[platform].label} account connected`);
+        }}
+        onDisconnect={() => {
+          persistAccounts({ ...accounts, [platform]: null });
+          log("warn", `Disconnected ${TARGETS[platform].label} account`);
+        }}
+      />
 
       {/* Split layout — stable, no resize/zoom */}
       <div className="flex-1 min-h-0 grid grid-cols-[minmax(320px,400px)_1fr]">
@@ -239,16 +303,21 @@ function WorkspacePage() {
 
           {/* Add prompts */}
           <div className="p-4 border-b border-white/5">
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">Add to queue</div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Add to queue</div>
+              <div className="text-[10px] text-muted-foreground">
+                {bulk.split("\n").map((l) => l.trim()).filter(Boolean).length} line{bulk.split("\n").map((l) => l.trim()).filter(Boolean).length === 1 ? "" : "s"}
+              </div>
+            </div>
             <Textarea
               value={bulk}
               onChange={(e) => setBulk(e.target.value)}
               placeholder={`One prompt per line…\nA neon city at night, cinematic\nA whale flying through clouds`}
-              rows={3}
+              rows={4}
               className="bg-white/5 border-white/10 font-mono text-xs resize-none"
             />
             <Button onClick={addBulk} size="sm" className="w-full mt-2 btn-gradient text-white border-0">
-              <Plus className="size-3.5 mr-1.5" /> Add prompts
+              <Plus className="size-3.5 mr-1.5" /> Queue {bulk.split("\n").map((l) => l.trim()).filter(Boolean).length || ""} prompt{bulk.split("\n").map((l) => l.trim()).filter(Boolean).length === 1 ? "" : "s"}
             </Button>
           </div>
 
@@ -301,6 +370,8 @@ function WorkspacePage() {
             phase={phase}
             running={running}
             completedCount={completed}
+            completedFiles={completedFiles}
+            connectedAs={accounts[platform]?.email ?? null}
             onSkip={skipCurrent}
           />
         </main>
@@ -311,19 +382,29 @@ function WorkspacePage() {
 
 /* ---------------- Automation Monitor ---------------- */
 
+type CompletedFile = { id: string; prompt_text: string | null; platform: string | null; created_at: string };
+
 function AutomationMonitor({
-  platform, gradient, active, phase, running, completedCount, onSkip,
+  platform, gradient, active, phase, running, completedCount, completedFiles, connectedAs, onSkip,
 }: {
   platform: string; gradient: string; active: Job | undefined; phase: Phase;
-  running: boolean; completedCount: number; onSkip: () => void;
+  running: boolean; completedCount: number;
+  completedFiles: CompletedFile[]; connectedAs: string | null;
+  onSkip: () => void;
 }) {
+  const typed = useTypewriter(active?.prompt_text ?? "", 18);
   return (
     <div className="flex-1 min-h-0 rounded-2xl border border-white/10 bg-gradient-to-b from-black/60 to-black/30 overflow-hidden flex flex-col shadow-[0_40px_120px_-40px_rgba(168,85,247,0.4)]">
       {/* Header */}
       <div className="shrink-0 h-11 border-b border-white/5 flex items-center px-4 gap-3 bg-black/40">
         <div className={`size-2 rounded-full bg-gradient-to-r ${gradient}`} />
-        <span className="font-display font-semibold text-sm">{platform} · Automation Monitor</span>
+        <span className="font-display font-semibold text-sm">{platform} · Live Generation Workspace</span>
         <Badge className="bg-white/5 text-muted-foreground border-0 text-[10px]">live</Badge>
+        {connectedAs && (
+          <Badge className="bg-green-500/10 text-green-300 border-0 text-[10px]">
+            <ShieldCheck className="size-2.5 mr-1" /> {connectedAs}
+          </Badge>
+        )}
         <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
           <Cpu className="size-3.5" />
           <span>{running ? "Engine running" : "Engine idle"}</span>
@@ -338,7 +419,17 @@ function AutomationMonitor({
           <div className="relative">
             <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Active prompt</div>
             <div className="mt-2 font-display text-xl md:text-2xl font-bold leading-snug min-h-[2.5rem]">
-              {active ? active.prompt_text : running ? "Loading next prompt…" : "Awaiting your queue"}
+              {active ? (
+                <>
+                  <span>{typed}</span>
+                  <motion.span
+                    aria-hidden
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 0.9, repeat: Infinity }}
+                    className="inline-block w-[2px] h-5 align-middle bg-purple-300 ml-1"
+                  />
+                </>
+              ) : running ? "Loading next prompt…" : "Awaiting your queue"}
             </div>
 
             {active && (
@@ -396,6 +487,47 @@ function AutomationMonitor({
             <Badge className="bg-white/5 border-0 text-[10px] text-muted-foreground">{phase}</Badge>
           </div>
           <RenderVisualizer phase={phase} active={!!active && running} />
+        </div>
+
+        {/* Completed videos */}
+        <div className="rounded-2xl border border-white/10 bg-black/40 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <div className="font-display font-semibold">Completed videos</div>
+              <div className="text-xs text-muted-foreground">Auto-saved to your Library as the queue finishes.</div>
+            </div>
+            <Link to="/dashboard/library" className="text-xs text-muted-foreground hover:text-foreground">View all →</Link>
+          </div>
+          {completedFiles.length === 0 ? (
+            <div className="text-xs text-muted-foreground text-center py-8 border border-dashed border-white/10 rounded-xl">
+              No completed videos yet.
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <AnimatePresence initial={false}>
+                {completedFiles.map((f) => (
+                  <motion.div
+                    key={f.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="group rounded-xl overflow-hidden border border-white/10 bg-white/[0.02] hover:border-purple-400/30 transition-colors"
+                  >
+                    <div className="aspect-video relative bg-gradient-to-br from-purple-500/30 via-blue-500/20 to-black/40">
+                      <div className="absolute inset-0 grid place-items-center">
+                        <PlayCircle className="size-8 text-white/70 group-hover:text-white transition" />
+                      </div>
+                      <Badge className="absolute top-2 left-2 bg-black/60 border-0 text-[10px] capitalize">{f.platform ?? platform}</Badge>
+                    </div>
+                    <div className="p-2.5">
+                      <div className="text-[11px] line-clamp-2 leading-snug">{f.prompt_text ?? "Untitled"}</div>
+                      <div className="text-[10px] text-muted-foreground mt-1">{new Date(f.created_at).toLocaleTimeString()}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
 
         {/* Extension hint */}
@@ -549,5 +681,120 @@ function JobRow({ job, onRetry, onRemove }: { job: Job; onRetry: (id: string) =>
         </div>
       </div>
     </motion.div>
+  );
+}
+
+/* ---------------- Typewriter ---------------- */
+
+function useTypewriter(text: string, charsPerSec = 24) {
+  const [out, setOut] = useState("");
+  useEffect(() => {
+    setOut("");
+    if (!text) return;
+    let i = 0;
+    const ms = Math.max(15, Math.floor(1000 / charsPerSec));
+    const id = window.setInterval(() => {
+      i += 1;
+      setOut(text.slice(0, i));
+      if (i >= text.length) window.clearInterval(id);
+    }, ms);
+    return () => window.clearInterval(id);
+  }, [text, charsPerSec]);
+  return out;
+}
+
+/* ---------------- Connect Account Dialog ---------------- */
+
+function ConnectAccountDialog({
+  open, onOpenChange, platform, platformLabel, current, onConnect, onDisconnect,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  platform: Platform;
+  platformLabel: string;
+  current: { email: string } | null;
+  onConnect: (email: string) => void;
+  onDisconnect: () => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => { if (open) { setEmail(current?.email ?? ""); setPassword(""); } }, [open, current]);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setBusy(true);
+    // Architecture placeholder: the Chrome extension will pick this up via
+    // window.postMessage / window.SeedanceAI and perform the actual login
+    // inside the user's own browser session. Credentials never leave the device.
+    try {
+      if (typeof window !== "undefined" && (window as any).SeedanceAI?.connectAccount) {
+        (window as any).SeedanceAI.connectAccount(platform, { email: email.trim(), password });
+      }
+      await new Promise((r) => setTimeout(r, 600));
+      onConnect(email.trim());
+      onOpenChange(false);
+    } finally { setBusy(false); }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-[#0b0b14] border-white/10 max-w-md">
+        <DialogHeader>
+          <DialogTitle className="font-display flex items-center gap-2">
+            <LinkIcon className="size-4 text-purple-300" /> Connect {platformLabel}
+          </DialogTitle>
+          <DialogDescription>
+            Sign in once so the automation can run prompts on your behalf. Credentials stay on this device
+            and are handed off to the Seedance AI Chrome extension.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={submit} className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="acc-email" className="text-xs">Email</Label>
+            <Input
+              id="acc-email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={`you@${platform}.com`}
+              className="bg-white/5 border-white/10"
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="acc-pw" className="text-xs">Password</Label>
+            <Input
+              id="acc-pw"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="bg-white/5 border-white/10"
+            />
+            <p className="text-[10px] text-muted-foreground">
+              Stored only in your browser. Used by the extension to log in to {platformLabel} for you.
+            </p>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-2">
+            {current && (
+              <Button type="button" variant="ghost" onClick={() => { onDisconnect(); onOpenChange(false); }} className="text-red-400 hover:text-red-300">
+                <LogOut className="size-3.5 mr-1.5" /> Disconnect
+              </Button>
+            )}
+            <Button type="submit" disabled={busy} className="btn-gradient text-white border-0">
+              {busy ? <Loader2 className="size-4 mr-1.5 animate-spin" /> : <ShieldCheck className="size-4 mr-1.5" />}
+              {current ? "Update" : "Connect"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
