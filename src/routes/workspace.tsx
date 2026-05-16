@@ -382,19 +382,29 @@ function WorkspacePage() {
 
 /* ---------------- Automation Monitor ---------------- */
 
+type CompletedFile = { id: string; prompt_text: string | null; platform: string | null; created_at: string };
+
 function AutomationMonitor({
-  platform, gradient, active, phase, running, completedCount, onSkip,
+  platform, gradient, active, phase, running, completedCount, completedFiles, connectedAs, onSkip,
 }: {
   platform: string; gradient: string; active: Job | undefined; phase: Phase;
-  running: boolean; completedCount: number; onSkip: () => void;
+  running: boolean; completedCount: number;
+  completedFiles: CompletedFile[]; connectedAs: string | null;
+  onSkip: () => void;
 }) {
+  const typed = useTypewriter(active?.prompt_text ?? "", 18);
   return (
     <div className="flex-1 min-h-0 rounded-2xl border border-white/10 bg-gradient-to-b from-black/60 to-black/30 overflow-hidden flex flex-col shadow-[0_40px_120px_-40px_rgba(168,85,247,0.4)]">
       {/* Header */}
       <div className="shrink-0 h-11 border-b border-white/5 flex items-center px-4 gap-3 bg-black/40">
         <div className={`size-2 rounded-full bg-gradient-to-r ${gradient}`} />
-        <span className="font-display font-semibold text-sm">{platform} · Automation Monitor</span>
+        <span className="font-display font-semibold text-sm">{platform} · Live Generation Workspace</span>
         <Badge className="bg-white/5 text-muted-foreground border-0 text-[10px]">live</Badge>
+        {connectedAs && (
+          <Badge className="bg-green-500/10 text-green-300 border-0 text-[10px]">
+            <ShieldCheck className="size-2.5 mr-1" /> {connectedAs}
+          </Badge>
+        )}
         <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
           <Cpu className="size-3.5" />
           <span>{running ? "Engine running" : "Engine idle"}</span>
@@ -409,7 +419,17 @@ function AutomationMonitor({
           <div className="relative">
             <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Active prompt</div>
             <div className="mt-2 font-display text-xl md:text-2xl font-bold leading-snug min-h-[2.5rem]">
-              {active ? active.prompt_text : running ? "Loading next prompt…" : "Awaiting your queue"}
+              {active ? (
+                <>
+                  <span>{typed}</span>
+                  <motion.span
+                    aria-hidden
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 0.9, repeat: Infinity }}
+                    className="inline-block w-[2px] h-5 align-middle bg-purple-300 ml-1"
+                  />
+                </>
+              ) : running ? "Loading next prompt…" : "Awaiting your queue"}
             </div>
 
             {active && (
