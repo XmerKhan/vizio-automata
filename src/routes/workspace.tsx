@@ -683,3 +683,118 @@ function JobRow({ job, onRetry, onRemove }: { job: Job; onRetry: (id: string) =>
     </motion.div>
   );
 }
+
+/* ---------------- Typewriter ---------------- */
+
+function useTypewriter(text: string, charsPerSec = 24) {
+  const [out, setOut] = useState("");
+  useEffect(() => {
+    setOut("");
+    if (!text) return;
+    let i = 0;
+    const ms = Math.max(15, Math.floor(1000 / charsPerSec));
+    const id = window.setInterval(() => {
+      i += 1;
+      setOut(text.slice(0, i));
+      if (i >= text.length) window.clearInterval(id);
+    }, ms);
+    return () => window.clearInterval(id);
+  }, [text, charsPerSec]);
+  return out;
+}
+
+/* ---------------- Connect Account Dialog ---------------- */
+
+function ConnectAccountDialog({
+  open, onOpenChange, platform, platformLabel, current, onConnect, onDisconnect,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  platform: Platform;
+  platformLabel: string;
+  current: { email: string } | null;
+  onConnect: (email: string) => void;
+  onDisconnect: () => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => { if (open) { setEmail(current?.email ?? ""); setPassword(""); } }, [open, current]);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setBusy(true);
+    // Architecture placeholder: the Chrome extension will pick this up via
+    // window.postMessage / window.SeedanceAI and perform the actual login
+    // inside the user's own browser session. Credentials never leave the device.
+    try {
+      if (typeof window !== "undefined" && (window as any).SeedanceAI?.connectAccount) {
+        (window as any).SeedanceAI.connectAccount(platform, { email: email.trim(), password });
+      }
+      await new Promise((r) => setTimeout(r, 600));
+      onConnect(email.trim());
+      onOpenChange(false);
+    } finally { setBusy(false); }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="bg-[#0b0b14] border-white/10 max-w-md">
+        <DialogHeader>
+          <DialogTitle className="font-display flex items-center gap-2">
+            <LinkIcon className="size-4 text-purple-300" /> Connect {platformLabel}
+          </DialogTitle>
+          <DialogDescription>
+            Sign in once so the automation can run prompts on your behalf. Credentials stay on this device
+            and are handed off to the Seedance AI Chrome extension.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={submit} className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="acc-email" className="text-xs">Email</Label>
+            <Input
+              id="acc-email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={`you@${platform}.com`}
+              className="bg-white/5 border-white/10"
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="acc-pw" className="text-xs">Password</Label>
+            <Input
+              id="acc-pw"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="bg-white/5 border-white/10"
+            />
+            <p className="text-[10px] text-muted-foreground">
+              Stored only in your browser. Used by the extension to log in to {platformLabel} for you.
+            </p>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-2">
+            {current && (
+              <Button type="button" variant="ghost" onClick={() => { onDisconnect(); onOpenChange(false); }} className="text-red-400 hover:text-red-300">
+                <LogOut className="size-3.5 mr-1.5" /> Disconnect
+              </Button>
+            )}
+            <Button type="submit" disabled={busy} className="btn-gradient text-white border-0">
+              {busy ? <Loader2 className="size-4 mr-1.5 animate-spin" /> : <ShieldCheck className="size-4 mr-1.5" />}
+              {current ? "Update" : "Connect"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
