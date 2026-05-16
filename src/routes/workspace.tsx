@@ -8,11 +8,15 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import {
   Play, Pause, SkipForward, RotateCcw, Trash2, Plus,
   Loader2, CheckCircle2, AlertCircle, Clock, Zap, Activity,
   ArrowLeft, Download, Sparkles, Film, CloudDownload, Cpu, Radio,
+  LinkIcon, LogOut, ShieldCheck, PlayCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/workspace")({ component: WorkspacePage });
