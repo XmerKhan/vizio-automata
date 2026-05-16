@@ -95,6 +95,7 @@ function WorkspacePage() {
     if (!user) return;
     const ch = supabase.channel("workspace-jobs")
       .on("postgres_changes", { event: "*", schema: "public", table: "queue_jobs", filter: `user_id=eq.${user.id}` }, () => load())
+      .on("postgres_changes", { event: "*", schema: "public", table: "generated_files", filter: `user_id=eq.${user.id}` }, () => loadFiles())
       .subscribe();
     return () => { supabase.removeChannel(ch); };
   }, [user]);
