@@ -249,6 +249,17 @@ function WorkspacePage() {
               {Object.entries(TARGETS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
             </SelectContent>
           </Select>
+          <Button
+            onClick={() => setConnectOpen(true)}
+            variant="outline"
+            className={`h-9 border-white/10 bg-white/5 ${accounts[platform] ? "text-green-300" : ""}`}
+          >
+            {accounts[platform] ? (
+              <><ShieldCheck className="size-4 mr-1.5" /> {accounts[platform]?.email}</>
+            ) : (
+              <><LinkIcon className="size-4 mr-1.5" /> Connect account</>
+            )}
+          </Button>
           {!running ? (
             <Button onClick={startQueue} className="btn-gradient text-white border-0 h-9">
               <Play className="size-4 mr-1.5" /> Run queue
@@ -260,6 +271,23 @@ function WorkspacePage() {
           )}
         </div>
       </header>
+
+      <ConnectAccountDialog
+        open={connectOpen}
+        onOpenChange={setConnectOpen}
+        platform={platform}
+        platformLabel={TARGETS[platform].label}
+        current={accounts[platform]}
+        onConnect={(email) => {
+          persistAccounts({ ...accounts, [platform]: { email } });
+          log("ok", `Connected ${TARGETS[platform].label} account: ${email}`);
+          toast.success(`${TARGETS[platform].label} account connected`);
+        }}
+        onDisconnect={() => {
+          persistAccounts({ ...accounts, [platform]: null });
+          log("warn", `Disconnected ${TARGETS[platform].label} account`);
+        }}
+      />
 
       {/* Split layout — stable, no resize/zoom */}
       <div className="flex-1 min-h-0 grid grid-cols-[minmax(320px,400px)_1fr]">
