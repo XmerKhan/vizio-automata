@@ -303,16 +303,21 @@ function WorkspacePage() {
 
           {/* Add prompts */}
           <div className="p-4 border-b border-white/5">
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">Add to queue</div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Add to queue</div>
+              <div className="text-[10px] text-muted-foreground">
+                {bulk.split("\n").map((l) => l.trim()).filter(Boolean).length} line{bulk.split("\n").map((l) => l.trim()).filter(Boolean).length === 1 ? "" : "s"}
+              </div>
+            </div>
             <Textarea
               value={bulk}
               onChange={(e) => setBulk(e.target.value)}
               placeholder={`One prompt per line…\nA neon city at night, cinematic\nA whale flying through clouds`}
-              rows={3}
+              rows={4}
               className="bg-white/5 border-white/10 font-mono text-xs resize-none"
             />
             <Button onClick={addBulk} size="sm" className="w-full mt-2 btn-gradient text-white border-0">
-              <Plus className="size-3.5 mr-1.5" /> Add prompts
+              <Plus className="size-3.5 mr-1.5" /> Queue {bulk.split("\n").map((l) => l.trim()).filter(Boolean).length || ""} prompt{bulk.split("\n").map((l) => l.trim()).filter(Boolean).length === 1 ? "" : "s"}
             </Button>
           </div>
 
