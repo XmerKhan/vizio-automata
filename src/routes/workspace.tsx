@@ -370,6 +370,8 @@ function WorkspacePage() {
             phase={phase}
             running={running}
             completedCount={completed}
+            completedFiles={completedFiles}
+            connectedAs={accounts[platform]?.email ?? null}
             onSkip={skipCurrent}
           />
         </main>
