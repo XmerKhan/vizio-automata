@@ -191,12 +191,17 @@ function WorkspacePage() {
   }
 
   async function startQueue() {
+    if (!accounts[platform]) {
+      toast.error(`Connect your ${TARGETS[platform].label} account first`);
+      setConnectOpen(true);
+      return;
+    }
     if (!pending.length && !active) {
       toast.error("Queue is empty — add prompts first");
       return;
     }
     setRunning(true);
-    log("info", `Automation started — target: ${TARGETS[platform].label}`);
+    log("info", `Automation started — target: ${TARGETS[platform].label} as ${accounts[platform]?.email}`);
     if (typeof window !== "undefined" && window.SeedanceAI?.sendPrompts) {
       window.SeedanceAI.sendPrompts(pending.map((j) => j.prompt_text));
       log("ok", "Handed off to extension bridge");
