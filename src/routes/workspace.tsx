@@ -502,8 +502,6 @@ function ImageMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
         const path = `${userId}/inputs/${crypto.randomUUID()}-${f.name}`;
         const { error } = await supabase.storage.from("uploads").upload(path, f, { upsert: false });
         if (error) { toast.error(error.message); continue; }
-        const { data } = supabase.storage.from("uploads").createSignedUrl(path, 60 * 60 * 24 * 7);
-        // signed URL is async — but createSignedUrl is async
         const signed = await supabase.storage.from("uploads").createSignedUrl(path, 60 * 60 * 24 * 7);
         const url = signed.data?.signedUrl ?? path;
         setFiles((prev) => [...prev, { id: crypto.randomUUID(), name: f.name, url, preview: URL.createObjectURL(f) }]);
