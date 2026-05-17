@@ -206,7 +206,7 @@ function WorkspacePage() {
   async function remove(id: string)  { await supabase.from("queue_jobs").delete().eq("id", id); }
   async function clearDone() {
     if (!user) return;
-    await supabase.from("queue_jobs").delete().eq("user_id", user.id).in("status", ["completed", "done", "failed", "cancelled"]);
+    await supabase.from("queue_jobs").delete().eq("user_id", user.id).in("status", ["done", "failed", "cancelled"]);
     log("info", "Cleared completed jobs");
   }
   async function move(id: string, dir: -1 | 1) {
