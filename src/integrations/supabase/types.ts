@@ -121,9 +121,15 @@ export type Database = {
           error: string | null
           finished_at: string | null
           id: string
+          ingredients: Json | null
+          media_urls: string[]
+          mode: string
+          output_url: string | null
           platform: Database["public"]["Enums"]["platform"]
+          position: number
           progress: number
           prompt_text: string
+          settings: Json
           started_at: string | null
           status: Database["public"]["Enums"]["job_status"]
           user_id: string
@@ -133,9 +139,15 @@ export type Database = {
           error?: string | null
           finished_at?: string | null
           id?: string
+          ingredients?: Json | null
+          media_urls?: string[]
+          mode?: string
+          output_url?: string | null
           platform?: Database["public"]["Enums"]["platform"]
+          position?: number
           progress?: number
           prompt_text: string
+          settings?: Json
           started_at?: string | null
           status?: Database["public"]["Enums"]["job_status"]
           user_id: string
@@ -145,9 +157,15 @@ export type Database = {
           error?: string | null
           finished_at?: string | null
           id?: string
+          ingredients?: Json | null
+          media_urls?: string[]
+          mode?: string
+          output_url?: string | null
           platform?: Database["public"]["Enums"]["platform"]
+          position?: number
           progress?: number
           prompt_text?: string
+          settings?: Json
           started_at?: string | null
           status?: Database["public"]["Enums"]["job_status"]
           user_id?: string
