@@ -171,7 +171,7 @@ function WorkspacePage() {
   /* ─── Queue mutations ─── */
   async function enqueue(payload: {
     prompt: string; mediaUrls?: string[]; ingredients?: any;
-  }) {
+  }): Promise<void> {
     if (!user) return;
     if (!accounts[platform]) {
       setConnectOpen(true);
@@ -184,15 +184,15 @@ function WorkspacePage() {
       prompt_text: payload.prompt,
       platform,
       mode,
-      settings,
+      settings: settings as any,
       media_urls: payload.mediaUrls ?? [],
       ingredients: payload.ingredients ?? null,
-      status: "pending",
+      status: "pending" as const,
       progress: 0,
       position: maxPos + i + 1,
     }));
     const { error } = await supabase.from("queue_jobs").insert(rows);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     log("ok", `Queued ${rows.length} × ${MODES.find((m) => m.id === mode)?.label}`);
     toast.success(`Queued ${rows.length} job${rows.length === 1 ? "" : "s"}`);
 
