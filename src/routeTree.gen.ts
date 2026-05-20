@@ -22,6 +22,9 @@ import { Route as DashboardLibraryRouteImport } from './routes/dashboard.library
 import { Route as DashboardExtensionRouteImport } from './routes/dashboard.extension'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as ApiWorkerReportRouteImport } from './routes/api/worker.report'
+import { Route as ApiQueuePauseRouteImport } from './routes/api/queue.pause'
+import { Route as ApiQueueAddRouteImport } from './routes/api/queue.add'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
@@ -88,6 +91,21 @@ const DashboardAdminRoute = DashboardAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => DashboardRoute,
 } as any)
+const ApiWorkerReportRoute = ApiWorkerReportRouteImport.update({
+  id: '/api/worker/report',
+  path: '/api/worker/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQueuePauseRoute = ApiQueuePauseRouteImport.update({
+  id: '/api/queue/pause',
+  path: '/api/queue/pause',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQueueAddRoute = ApiQueueAddRouteImport.update({
+  id: '/api/queue/add',
+  path: '/api/queue/add',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +121,9 @@ export interface FileRoutesByFullPath {
   '/dashboard/queue': typeof DashboardQueueRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/queue/add': typeof ApiQueueAddRoute
+  '/api/queue/pause': typeof ApiQueuePauseRoute
+  '/api/worker/report': typeof ApiWorkerReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -117,6 +138,9 @@ export interface FileRoutesByTo {
   '/dashboard/queue': typeof DashboardQueueRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/api/queue/add': typeof ApiQueueAddRoute
+  '/api/queue/pause': typeof ApiQueuePauseRoute
+  '/api/worker/report': typeof ApiWorkerReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -133,6 +157,9 @@ export interface FileRoutesById {
   '/dashboard/queue': typeof DashboardQueueRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/queue/add': typeof ApiQueueAddRoute
+  '/api/queue/pause': typeof ApiQueuePauseRoute
+  '/api/worker/report': typeof ApiWorkerReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -150,6 +177,9 @@ export interface FileRouteTypes {
     | '/dashboard/queue'
     | '/dashboard/settings'
     | '/dashboard/'
+    | '/api/queue/add'
+    | '/api/queue/pause'
+    | '/api/worker/report'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -164,6 +194,9 @@ export interface FileRouteTypes {
     | '/dashboard/queue'
     | '/dashboard/settings'
     | '/dashboard'
+    | '/api/queue/add'
+    | '/api/queue/pause'
+    | '/api/worker/report'
   id:
     | '__root__'
     | '/'
@@ -179,6 +212,9 @@ export interface FileRouteTypes {
     | '/dashboard/queue'
     | '/dashboard/settings'
     | '/dashboard/'
+    | '/api/queue/add'
+    | '/api/queue/pause'
+    | '/api/worker/report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -188,6 +224,9 @@ export interface RootRouteChildren {
   ExtensionRoute: typeof ExtensionRoute
   PricingRoute: typeof PricingRoute
   WorkspaceRoute: typeof WorkspaceRoute
+  ApiQueueAddRoute: typeof ApiQueueAddRoute
+  ApiQueuePauseRoute: typeof ApiQueuePauseRoute
+  ApiWorkerReportRoute: typeof ApiWorkerReportRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -283,6 +322,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAdminRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/api/worker/report': {
+      id: '/api/worker/report'
+      path: '/api/worker/report'
+      fullPath: '/api/worker/report'
+      preLoaderRoute: typeof ApiWorkerReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/queue/pause': {
+      id: '/api/queue/pause'
+      path: '/api/queue/pause'
+      fullPath: '/api/queue/pause'
+      preLoaderRoute: typeof ApiQueuePauseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/queue/add': {
+      id: '/api/queue/add'
+      path: '/api/queue/add'
+      fullPath: '/api/queue/add'
+      preLoaderRoute: typeof ApiQueueAddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -317,6 +377,9 @@ const rootRouteChildren: RootRouteChildren = {
   ExtensionRoute: ExtensionRoute,
   PricingRoute: PricingRoute,
   WorkspaceRoute: WorkspaceRoute,
+  ApiQueueAddRoute: ApiQueueAddRoute,
+  ApiQueuePauseRoute: ApiQueuePauseRoute,
+  ApiWorkerReportRoute: ApiWorkerReportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
