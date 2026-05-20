@@ -24,14 +24,7 @@ function authorized(request: Request): boolean {
   return header === secret;
 }
 
-/**
- * POST /api/public/queue/pause
- * Body: { user_id?: string, resume?: boolean, job_ids?: string[] }
- *
- * Pauses all pending jobs (status -> "paused") or resumes ("paused" -> "pending").
- * Scope to a user or specific jobs. Without filters, applies globally.
- */
-export const Route = createFileRoute("/api/public/queue/pause")({
+export const Route = createFileRoute("/api/queue/pause")({
   server: {
     handlers: {
       OPTIONS: async () => new Response(null, { status: 204, headers: CORS }),

@@ -24,19 +24,7 @@ function authorized(request: Request): boolean {
   return header === secret;
 }
 
-/**
- * POST /api/public/queue/add
- * Body: {
- *   user_id: string,                    // required (worker must specify owner)
- *   prompts: string[] | string,         // one or many
- *   platform?: "seedance" | "dreamina",
- *   mode?: string,
- *   settings?: object,
- *   media_urls?: string[],
- *   ingredients?: object,
- * }
- */
-export const Route = createFileRoute("/api/public/queue/add")({
+export const Route = createFileRoute("/api/queue/add")({
   server: {
     handlers: {
       OPTIONS: async () => new Response(null, { status: 204, headers: CORS }),

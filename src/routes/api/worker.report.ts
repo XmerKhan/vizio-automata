@@ -24,28 +24,13 @@ function authorized(request: Request): boolean {
   return header === secret;
 }
 
-/**
- * POST /api/public/worker/report
- *
- * Actions:
- *  - { action: "claim", limit?: number, platform?: string }
- *      → atomically claim up to N pending jobs, mark them "generating"
- *  - { action: "progress", job_id, progress, message?, level? }
- *      → update job progress, append a job_log
- *  - { action: "complete", job_id, output_url, thumbnail_url?, duration_seconds? }
- *      → mark job completed, insert generated_files row, bump usage_tracking
- *  - { action: "error", job_id, error, retry?: boolean }
- *      → mark job failed (or back to pending if retry)
- */
-export const Route = createFileRoute("/api/public/worker/report")({
+export const Route = createFileRoute("/api/worker/report")({
   server: {
     handlers: {
       OPTIONS: async () => new Response(null, { status: 204, headers: CORS }),
 
       POST: async ({ request }) => {
-        if (!authorized(request)) {
-          return json({ error: "Unauthorized" }, 401);
-        }
+        if (!authorized(request)) return json({ error: "Unauthorized" }, 401);
 
         let payload: any;
         try {
@@ -86,7 +71,6 @@ export const Route = createFileRoute("/api/public/worker/report")({
               .eq("status", "pending")
               .select("*");
             if (upErr) return json({ error: upErr.message }, 500);
-
             return json({ jobs: claimed ?? [] });
           }
 
@@ -165,7 +149,6 @@ export const Route = createFileRoute("/api/public/worker/report")({
                 .from("usage_tracking")
                 .insert({ user_id: job.user_id, day: today, prompts_used: 1 });
             }
-
             return json({ ok: true, job });
           }
 
