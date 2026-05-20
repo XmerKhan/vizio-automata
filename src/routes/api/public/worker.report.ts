@@ -94,12 +94,10 @@ export const Route = createFileRoute("/api/public/worker/report")({
             const { job_id, progress, message, level } = payload;
             if (!job_id) return json({ error: "Missing job_id" }, 400);
 
-            const updates: Record<string, unknown> = {};
-            if (typeof progress === "number") updates.progress = progress;
-            if (Object.keys(updates).length) {
+            if (typeof progress === "number") {
               const { error } = await supabaseAdmin
                 .from("queue_jobs")
-                .update(updates)
+                .update({ progress })
                 .eq("id", job_id);
               if (error) return json({ error: error.message }, 500);
             }
