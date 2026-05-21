@@ -28,8 +28,8 @@ export const Route = createFileRoute("/workspace")({ component: WorkspacePage })
 
 const TARGETS = {
   dreamina: { label: "Dreamina", color: "from-pink-500 to-purple-500" },
-  seedance: { label: "Seedance", color: "from-purple-500 to-blue-500" },
-  jimeng:   { label: "Jimeng",   color: "from-blue-500 to-cyan-500" },
+  seedance: { label: "Dreamina", color: "from-purple-500 to-blue-500" },
+  jimeng:   { label: "Dreamina", color: "from-blue-500 to-cyan-500" },
 } as const;
 type Platform = keyof typeof TARGETS;
 
@@ -456,7 +456,7 @@ function WorkspacePage() {
               <div className="rounded-xl border border-dashed border-white/10 bg-white/[0.02] p-4 text-xs text-muted-foreground flex items-start gap-3">
                 <Radio className="size-4 mt-0.5 text-muted-foreground" />
                 <div>
-                  Jobs are dispatched to the <span className="text-foreground font-medium">Seedance Chrome extension</span> or your generation API.
+                  Jobs are dispatched to the <span className="text-foreground font-medium">Auto Seedance browser extension</span> or your generation API.
                   Progress here updates in real time as the worker reports back.
                 </div>
               </div>
@@ -950,7 +950,7 @@ function ConnectAccountDialog({
             </div>
             <DialogTitle className="font-display text-xl">Connect {platformLabel}</DialogTitle>
             <DialogDescription className="text-xs leading-relaxed">
-              Sign in so the Seedance extension can run jobs on your behalf inside your own browser session.
+              Sign in so the Auto Seedance extension can run jobs on your behalf inside your own browser session.
             </DialogDescription>
           </DialogHeader>
           <AnimatePresence mode="wait" initial={false}>

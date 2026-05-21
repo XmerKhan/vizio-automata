@@ -63,9 +63,9 @@ function Overview() {
           <div className="relative flex flex-wrap items-center justify-between gap-4">
             <div className="max-w-xl">
               <Badge className="btn-gradient text-white border-0 mb-3">Workspace</Badge>
-              <h2 className="font-display text-2xl md:text-3xl font-bold">Connect to Seedance & start automating</h2>
+              <h2 className="font-display text-2xl md:text-3xl font-bold">Connect to Dreamina &amp; start automating</h2>
               <p className="text-muted-foreground mt-2 text-sm">
-                Open the live split-screen workspace — your queue on the left, Dreamina/Seedance on the right.
+                Open the live split-screen workspace — your queue on the left, Dreamina on the right.
               </p>
             </div>
             <Button size="lg" className="btn-gradient text-white border-0">

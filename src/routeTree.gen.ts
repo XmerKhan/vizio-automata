@@ -10,9 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ExtensionRouteImport } from './routes/extension'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
@@ -31,6 +35,21 @@ const WorkspaceRoute = WorkspaceRouteImport.update({
   path: '/workspace',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -44,6 +63,11 @@ const ExtensionRoute = ExtensionRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -110,9 +134,13 @@ const ApiQueueAddRoute = ApiQueueAddRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/extension': typeof ExtensionRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/workspace': typeof WorkspaceRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -128,8 +156,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
   '/extension': typeof ExtensionRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/workspace': typeof WorkspaceRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -146,9 +178,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/extension': typeof ExtensionRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/workspace': typeof WorkspaceRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -166,9 +202,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/contact'
     | '/dashboard'
     | '/extension'
     | '/pricing'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/terms'
     | '/workspace'
     | '/dashboard/admin'
     | '/dashboard/billing'
@@ -184,8 +224,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/contact'
     | '/extension'
     | '/pricing'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/terms'
     | '/workspace'
     | '/dashboard/admin'
     | '/dashboard/billing'
@@ -201,9 +245,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/contact'
     | '/dashboard'
     | '/extension'
     | '/pricing'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/terms'
     | '/workspace'
     | '/dashboard/admin'
     | '/dashboard/billing'
@@ -220,9 +268,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   ExtensionRoute: typeof ExtensionRoute
   PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   WorkspaceRoute: typeof WorkspaceRoute
   ApiQueueAddRoute: typeof ApiQueueAddRoute
   ApiQueuePauseRoute: typeof ApiQueuePauseRoute
@@ -236,6 +288,27 @@ declare module '@tanstack/react-router' {
       path: '/workspace'
       fullPath: '/workspace'
       preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -257,6 +330,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -373,9 +453,13 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
   ExtensionRoute: ExtensionRoute,
   PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   WorkspaceRoute: WorkspaceRoute,
   ApiQueueAddRoute: ApiQueueAddRoute,
   ApiQueuePauseRoute: ApiQueuePauseRoute,
