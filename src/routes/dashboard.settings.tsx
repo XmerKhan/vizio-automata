@@ -19,7 +19,7 @@ type Settings = {
   auto_download: boolean; download_path: string | null; default_platform: string;
 };
 
-const defaults: Settings = { theme: "dark", automation_speed: "normal", delay_ms: 1500, auto_download: true, download_path: "Downloads/SeedanceAI", default_platform: "seedance" };
+const defaults: Settings = { theme: "dark", automation_speed: "normal", delay_ms: 1500, auto_download: true, download_path: "Downloads/AutoSeedance", default_platform: "dreamina" };
 
 function SettingsPage() {
   const { user } = useSession();
@@ -61,9 +61,7 @@ function SettingsPage() {
           <Select value={s.default_platform} onValueChange={(v) => setS({ ...s, default_platform: v })}>
             <SelectTrigger className="bg-white/5 border-white/10 w-44"><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="seedance">Seedance</SelectItem>
               <SelectItem value="dreamina">Dreamina</SelectItem>
-              <SelectItem value="jimeng">Jimeng</SelectItem>
             </SelectContent>
           </Select>
         </Row>

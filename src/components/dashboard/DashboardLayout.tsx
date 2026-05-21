@@ -47,7 +47,7 @@ export function DashboardLayout() {
           <span className="size-8 rounded-lg btn-gradient grid place-items-center">
             <Sparkles className="size-4 text-white" />
           </span>
-          <span className="gradient-text">Seedance AI</span>
+          <span className="gradient-text">Auto Seedance</span>
         </Link>
         <nav className="flex-1 px-3 space-y-1">
           {allItems.map((it) => {

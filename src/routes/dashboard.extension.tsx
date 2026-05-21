@@ -32,9 +32,9 @@ function ExtensionPage() {
   }, [user]);
 
   const steps = [
-    { t: "Install the extension", d: "Add Seedance AI to Chrome / Edge / Brave from the store." },
-    { t: "Sign in to your AI account", d: "Open Seedance, Dreamina or Jimeng — log in as you normally would." },
-    { t: "Pair the extension", d: "Click the extension icon and sign in with your Seedance AI account." },
+    { t: "Install the extension", d: "Add Auto Seedance to Chrome or Microsoft Edge from the store." },
+    { t: "Sign in to Dreamina", d: "Open Dreamina and log in as you normally would." },
+    { t: "Pair the extension", d: "Click the extension icon and sign in with your Auto Seedance account." },
     { t: "Start the queue", d: "Add prompts, hit Run — automation begins instantly." },
   ];
 
@@ -79,7 +79,7 @@ function ExtensionPage() {
         <Badge variant="outline" className="border-white/10 bg-white/5">Workflow</Badge>
         <h2 className="font-display text-2xl font-bold mt-3">How a job flows</h2>
         <div className="mt-6 flex flex-wrap items-center gap-2 text-sm">
-          {["You add prompt", "Saved to queue", "Extension picks it up", "Drives Seedance", "Video downloaded", "Synced to library"].map((s, i, arr) => (
+          {["You add prompt", "Saved to queue", "Extension picks it up", "Drives Dreamina", "Output downloaded", "Synced to library"].map((s, i, arr) => (
             <div key={s} className="flex items-center gap-2">
               <span className="px-3 py-2 rounded-lg glass">{s}</span>
               {i < arr.length - 1 && <ArrowRight className="size-4 text-muted-foreground" />}

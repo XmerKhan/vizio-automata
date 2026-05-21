@@ -67,9 +67,7 @@ function QueuePage() {
           <Select value={platform} onValueChange={(v) => setPlatform(v as any)}>
             <SelectTrigger className="w-44 bg-white/5 border-white/10"><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="seedance">Seedance</SelectItem>
               <SelectItem value="dreamina">Dreamina</SelectItem>
-              <SelectItem value="jimeng">Jimeng</SelectItem>
             </SelectContent>
           </Select>
         </div>

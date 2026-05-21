@@ -74,7 +74,7 @@ function AuthPage() {
           <span className="size-9 rounded-lg btn-gradient grid place-items-center">
             <Sparkles className="size-5 text-white" />
           </span>
-          <span className="gradient-text">Seedance AI</span>
+          <span className="gradient-text">Auto Seedance</span>
         </Link>
         <Card className="glass border-0 p-8">
           <h1 className="text-2xl font-display font-bold text-center">
