@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vizio-automata.lovable.app/sitemap.xml

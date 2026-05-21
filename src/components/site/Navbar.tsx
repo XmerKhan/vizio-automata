@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Download } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Navbar() {
@@ -12,12 +12,15 @@ export function Navbar() {
       className="fixed top-0 inset-x-0 z-50"
     >
       <div className="mx-auto max-w-7xl px-4 mt-4">
-        <div className="glass rounded-2xl px-5 py-3 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg">
+        <div className="glass rounded-2xl px-5 py-3 flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg shrink-0">
             <span className="size-8 rounded-lg btn-gradient grid place-items-center">
               <Sparkles className="size-4 text-white" />
             </span>
-            <span className="gradient-text">Seedance AI</span>
+            <span className="gradient-text">Auto Seedance</span>
+            <span className="hidden sm:inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full border border-white/10 bg-white/5 text-muted-foreground uppercase tracking-wider ml-1">
+              Chrome &amp; Edge
+            </span>
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
             <a href="/#features" className="hover:text-foreground transition">Features</a>
@@ -27,11 +30,13 @@ export function Navbar() {
             <a href="/#faq" className="hover:text-foreground transition">FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Link to="/auth">
-              <Button variant="ghost" size="sm">Sign in</Button>
+            <Link to="/extension">
+              <Button size="sm" className="btn-gradient text-white border-0">
+                <Download className="size-3.5 mr-1.5" /> Install Extension
+              </Button>
             </Link>
-            <Link to="/auth">
-              <Button size="sm" className="btn-gradient text-white border-0">Get Started</Button>
+            <Link to="/auth" className="hidden sm:block">
+              <Button variant="ghost" size="sm">Sign in</Button>
             </Link>
           </div>
         </div>
