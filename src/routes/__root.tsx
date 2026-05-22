@@ -43,7 +43,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             onClick={() => { router.invalidate(); reset(); }}
             className="rounded-md btn-gradient px-4 py-2 text-sm font-medium text-white"
           >Try again</button>
-          <a href="/" className="rounded-md border border-white/10 px-4 py-2 text-sm hover:bg-white/5">Go home</a>
+          <a href="/" className="rounded-md border border-border px-4 py-2 text-sm hover:bg-muted/50">Go home</a>
         </div>
       </div>
     </div>

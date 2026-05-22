@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 mt-32">
+    <footer className="border-t border-border mt-32">
       <div className="mx-auto max-w-7xl px-4 py-12 grid md:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center gap-2 font-display font-bold text-lg">
@@ -41,7 +41,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/5 py-6 text-center text-xs text-muted-foreground">
+      <div className="border-t border-border py-6 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} Auto Seedance. Bulk AI automation for creators.
       </div>
     </footer>

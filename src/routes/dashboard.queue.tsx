@@ -65,13 +65,13 @@ function QueuePage() {
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <h2 className="font-display font-semibold">Add prompts</h2>
           <Select value={platform} onValueChange={(v) => setPlatform(v as any)}>
-            <SelectTrigger className="w-44 bg-white/5 border-white/10"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-44 bg-muted/50 border-border"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="dreamina">Dreamina</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <Textarea value={bulk} onChange={(e) => setBulk(e.target.value)} placeholder="One prompt per line..." rows={6} className="mt-4 bg-white/5 border-white/10 font-mono text-sm" />
+        <Textarea value={bulk} onChange={(e) => setBulk(e.target.value)} placeholder="One prompt per line..." rows={6} className="mt-4 bg-muted/50 border-border font-mono text-sm" />
         <Button onClick={addBulk} disabled={loading} className="mt-3 btn-gradient text-white border-0">
           {loading ? <Loader2 className="size-4 animate-spin mr-2" /> : <Plus className="size-4 mr-2" />}
           Add to queue
@@ -83,12 +83,12 @@ function QueuePage() {
         {jobs.length === 0 && <p className="text-sm text-muted-foreground">No jobs yet. Paste some prompts above.</p>}
         <div className="space-y-2">
           {jobs.map((j) => (
-            <div key={j.id} className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div key={j.id} className="rounded-xl border border-border bg-muted/40 p-4">
               <div className="flex items-start gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="text-sm truncate">{j.prompt_text}</div>
                   <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                    <Badge variant="outline" className="border-white/10">{j.platform}</Badge>
+                    <Badge variant="outline" className="border-border">{j.platform}</Badge>
                     <StatusBadge status={j.status} />
                   </div>
                   {j.status === "running" && <Progress value={j.progress} className="mt-3 h-1.5" />}
@@ -110,7 +110,7 @@ function StatusBadge({ status }: { status: string }) {
     running: "bg-blue-500/10 text-blue-400",
     done: "bg-green-500/10 text-green-400",
     failed: "bg-red-500/10 text-red-400",
-    cancelled: "bg-white/5 text-muted-foreground",
+    cancelled: "bg-muted/50 text-muted-foreground",
   };
   return <Badge className={`${map[status] ?? ""} border-0`}>{status}</Badge>;
 }

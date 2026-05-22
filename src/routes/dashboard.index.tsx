@@ -51,7 +51,7 @@ function Overview() {
           <h1 className="font-display text-3xl font-bold">Welcome back 👋</h1>
           <p className="text-muted-foreground mt-1">Here's what your queue is doing.</p>
         </div>
-        <Badge variant="outline" className={`border-white/10 ${stats.connected ? "bg-green-500/10 text-green-400" : "bg-yellow-500/10 text-yellow-400"}`}>
+        <Badge variant="outline" className={`border-border ${stats.connected ? "bg-green-500/10 text-green-400" : "bg-yellow-500/10 text-yellow-400"}`}>
           <Chrome className="size-3 mr-1" /> Extension {stats.connected ? "connected" : "not connected"}
         </Badge>
       </header>
@@ -105,18 +105,18 @@ function Overview() {
       <Card className="glass border-0 p-6 mt-6">
         <h2 className="font-display font-semibold text-lg">Quick actions</h2>
         <div className="mt-4 grid sm:grid-cols-3 gap-3">
-          <a href="/dashboard/queue" className="rounded-xl border border-white/5 bg-white/[0.02] p-4 hover:bg-white/5 transition">
-            <ListChecks className="size-5 text-purple-400" />
+          <a href="/dashboard/queue" className="rounded-xl border border-border bg-muted/40 p-4 hover:bg-muted/50 transition">
+            <ListChecks className="size-5 text-primary" />
             <div className="font-semibold mt-2">Add prompts</div>
             <div className="text-xs text-muted-foreground">Bulk-paste prompts to the queue</div>
           </a>
-          <a href="/dashboard/extension" className="rounded-xl border border-white/5 bg-white/[0.02] p-4 hover:bg-white/5 transition">
-            <Chrome className="size-5 text-purple-400" />
+          <a href="/dashboard/extension" className="rounded-xl border border-border bg-muted/40 p-4 hover:bg-muted/50 transition">
+            <Chrome className="size-5 text-primary" />
             <div className="font-semibold mt-2">Install extension</div>
             <div className="text-xs text-muted-foreground">Connect your browser to start automating</div>
           </a>
-          <a href="/dashboard/library" className="rounded-xl border border-white/5 bg-white/[0.02] p-4 hover:bg-white/5 transition">
-            <Film className="size-5 text-purple-400" />
+          <a href="/dashboard/library" className="rounded-xl border border-border bg-muted/40 p-4 hover:bg-muted/50 transition">
+            <Film className="size-5 text-primary" />
             <div className="font-semibold mt-2">Browse library</div>
             <div className="text-xs text-muted-foreground">Download finished videos</div>
           </a>

@@ -53,8 +53,8 @@ function Hero() {
     <section className="relative pt-40 pb-28 grid-bg overflow-hidden">
       <div className="mx-auto max-w-6xl px-4 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <Badge variant="outline" className="border-white/10 bg-white/5 backdrop-blur text-xs">
-            <Sparkles className="size-3 mr-1 text-purple-400" /> Chrome &amp; Edge Extension · Free during Early Access
+          <Badge variant="outline" className="border-border bg-muted/50 backdrop-blur text-xs">
+            <Sparkles className="size-3 mr-1 text-primary" /> Chrome &amp; Edge Extension · Free during Early Access
           </Badge>
         </motion.div>
         <motion.h1
@@ -84,7 +84,7 @@ function Hero() {
             </Button>
           </Link>
           <Link to="/dashboard">
-            <Button size="lg" variant="outline" className="h-12 px-6 border-white/10 bg-white/5 backdrop-blur hover:bg-white/10 transition">
+            <Button size="lg" variant="outline" className="h-12 px-6 border-border bg-muted/50 backdrop-blur hover:bg-muted transition">
               Open Dashboard <ArrowRight className="ml-1 size-4" />
             </Button>
           </Link>
@@ -115,7 +115,7 @@ function Hero() {
 function LogosStrip() {
   const items = ["Dreamina", "Chrome", "Edge", "Brave", "Arc", "Opera"];
   return (
-    <div className="border-y border-white/5 py-8">
+    <div className="border-y border-border py-8">
       <div className="mx-auto max-w-6xl px-4 flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-muted-foreground/80">
         <span className="text-xs uppercase tracking-widest">Works with</span>
         {items.map((i) => (
@@ -131,7 +131,7 @@ function DemoSection() {
     <section className="py-28">
       <div className="mx-auto max-w-6xl px-4 grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <Badge variant="outline" className="border-white/10 bg-white/5">Automation</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50">Automation</Badge>
           <h2 className="mt-4 font-display text-4xl font-bold">Your prompts → our queue → real results.</h2>
           <p className="mt-4 text-muted-foreground">
             Drop a list of prompts, hit run. Our browser extension takes over, drives Dreamina with your account, and streams finished images and videos back to your dashboard.
@@ -168,9 +168,9 @@ function DemoSection() {
                 { p: "Astronaut floating through neon nebula 4k", s: 41 },
                 { p: "Liquid metal morphing into a rose, studio", s: 0 },
               ].map((j, i) => (
-                <div key={i} className="rounded-lg border border-white/5 bg-white/[0.02] p-3">
+                <div key={i} className="rounded-lg border border-border bg-muted/40 p-3">
                   <div className="text-xs truncate">{j.p}</div>
-                  <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                  <div className="mt-2 h-1.5 rounded-full bg-muted/50 overflow-hidden">
                     <div className="h-full btn-gradient" style={{ width: `${j.s}%` }} />
                   </div>
                 </div>
@@ -193,10 +193,10 @@ function Features() {
     { icon: Cpu, title: "Built for creators", desc: "AI creator productivity tools for image and video workflows at scale." },
   ];
   return (
-    <section id="features" className="py-24 border-t border-white/5">
+    <section id="features" className="py-24 border-t border-border">
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center max-w-2xl mx-auto">
-          <Badge variant="outline" className="border-white/10 bg-white/5">Features</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50">Features</Badge>
           <h2 className="mt-4 font-display text-4xl font-bold">Everything a bulk AI creator needs.</h2>
           <p className="mt-3 text-muted-foreground">A premium automation layer for the AI image and video tools you already use.</p>
         </div>
@@ -233,7 +233,7 @@ function HowItWorks() {
     <section id="how" className="py-24">
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center max-w-2xl mx-auto">
-          <Badge variant="outline" className="border-white/10 bg-white/5">How it works</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50">How it works</Badge>
           <h2 className="mt-4 font-display text-4xl font-bold">From prompt to library in 4 steps.</h2>
         </div>
         <div className="mt-12 grid md:grid-cols-4 gap-5">
@@ -252,10 +252,10 @@ function HowItWorks() {
 
 function ExtensionSection() {
   return (
-    <section className="py-24 border-t border-white/5">
+    <section className="py-24 border-t border-border">
       <div className="mx-auto max-w-5xl px-4">
         <div className="text-center max-w-2xl mx-auto">
-          <Badge variant="outline" className="border-white/10 bg-white/5"><Chrome className="size-3 mr-1" /> Browser extension</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50"><Chrome className="size-3 mr-1" /> Browser extension</Badge>
           <h2 className="mt-4 font-display text-4xl font-bold">Available for Chrome and Microsoft Edge.</h2>
           <p className="mt-3 text-muted-foreground">Install in one click and start automating bulk AI generation today.</p>
         </div>
@@ -302,9 +302,9 @@ function PricingTeaser() {
     "AI creator productivity tools",
   ];
   return (
-    <section id="pricing" className="py-24 border-t border-white/5">
+    <section id="pricing" className="py-24 border-t border-border">
       <div className="mx-auto max-w-3xl px-4 text-center">
-        <Badge variant="outline" className="border-white/10 bg-white/5">Pricing</Badge>
+        <Badge variant="outline" className="border-border bg-muted/50">Pricing</Badge>
         <h2 className="mt-4 font-display text-4xl font-bold">Currently Free During Early Access</h2>
         <p className="mt-3 text-muted-foreground">No credit card. No paid tiers. Just install and automate.</p>
         <Card className="glass border-0 p-8 mt-10 glow-purple text-left">
@@ -317,7 +317,7 @@ function PricingTeaser() {
           </div>
           <ul className="mt-6 grid sm:grid-cols-2 gap-2 text-sm">
             {features.map((f) => (
-              <li key={f} className="flex gap-2"><Check className="size-4 text-purple-400 shrink-0 mt-0.5" />{f}</li>
+              <li key={f} className="flex gap-2"><Check className="size-4 text-primary shrink-0 mt-0.5" />{f}</li>
             ))}
           </ul>
           <Link to="/extension" className="block mt-7">
@@ -348,12 +348,12 @@ function FAQ() {
     <section id="faq" className="py-24">
       <div className="mx-auto max-w-3xl px-4">
         <div className="text-center">
-          <Badge variant="outline" className="border-white/10 bg-white/5">FAQ</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50">FAQ</Badge>
           <h2 className="mt-4 font-display text-4xl font-bold">Questions, answered.</h2>
         </div>
         <Accordion type="single" collapsible className="mt-10">
           {faqs.map((f) => (
-            <AccordionItem key={f.q} value={f.q} className="border-white/5">
+            <AccordionItem key={f.q} value={f.q} className="border-border">
               <AccordionTrigger className="text-left">{f.q}</AccordionTrigger>
               <AccordionContent className="text-muted-foreground">{f.a}</AccordionContent>
             </AccordionItem>
@@ -369,14 +369,14 @@ function CTA() {
     <section className="py-24">
       <div className="mx-auto max-w-5xl px-4">
         <div className="glass rounded-3xl p-12 text-center grid-bg">
-          <Layers className="size-10 mx-auto text-purple-400" />
+          <Layers className="size-10 mx-auto text-primary" />
           <h2 className="mt-4 font-display text-4xl font-bold">Stop babysitting prompts.</h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Let Auto Seedance run the queue while you focus on the next idea.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link to="/extension"><Button size="lg" className="btn-gradient text-white border-0 h-12 px-6"><Download className="size-4 mr-2" /> Install Extension</Button></Link>
-            <Link to="/dashboard"><Button size="lg" variant="outline" className="h-12 px-6 border-white/10 bg-white/5"><Clock className="mr-2 size-4" /> Open Dashboard</Button></Link>
+            <Link to="/dashboard"><Button size="lg" variant="outline" className="h-12 px-6 border-border bg-muted/50"><Clock className="mr-2 size-4" /> Open Dashboard</Button></Link>
           </div>
         </div>
       </div>

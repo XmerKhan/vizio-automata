@@ -33,7 +33,7 @@ function ExtensionLanding() {
       <Navbar />
       <section id="install" className="pt-40 pb-20 grid-bg">
         <div className="mx-auto max-w-5xl px-4 text-center">
-          <Badge variant="outline" className="border-white/10 bg-white/5"><Chrome className="size-3 mr-1" /> Chrome &amp; Edge Extension</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50"><Chrome className="size-3 mr-1" /> Chrome &amp; Edge Extension</Badge>
           <h1 className="mt-4 font-display text-5xl md:text-6xl font-bold">The bridge between you and your AI tools.</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Our lightweight extension automates Dreamina inside your browser — queue hundreds of prompts and walk away.
@@ -52,7 +52,7 @@ function ExtensionLanding() {
           </div>
           <p className="mt-4 text-xs text-muted-foreground">Also works on Brave, Arc, and Opera (Chromium).</p>
           <div className="mt-6">
-            <Link to="/dashboard"><Button variant="outline" className="h-11 px-6 border-white/10 bg-white/5">Open Dashboard <ArrowRight className="ml-1 size-4" /></Button></Link>
+            <Link to="/dashboard"><Button variant="outline" className="h-11 px-6 border-border bg-muted/50">Open Dashboard <ArrowRight className="ml-1 size-4" /></Button></Link>
           </div>
         </div>
       </section>
