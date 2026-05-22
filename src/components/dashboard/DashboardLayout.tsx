@@ -35,7 +35,7 @@ export function DashboardLayout() {
   }, [session]);
 
   if (loading || !session) {
-    return <div className="min-h-screen grid place-items-center"><Loader2 className="animate-spin text-purple-400" /></div>;
+    return <div className="min-h-screen grid place-items-center"><Loader2 className="animate-spin text-primary" /></div>;
   }
 
   const allItems = isAdmin ? [...items, { to: "/dashboard/admin", label: "Admin", icon: Shield }] : items;

@@ -31,7 +31,7 @@ function Billing() {
           <div className="text-sm text-muted-foreground">Current plan</div>
           <div className="font-display font-bold text-2xl mt-1">{current.toUpperCase()}</div>
         </div>
-        <Sparkles className="size-8 text-purple-400" />
+        <Sparkles className="size-8 text-primary" />
       </Card>
 
       <div className="mt-6 grid md:grid-cols-3 gap-4">
@@ -46,7 +46,7 @@ function Billing() {
             </div>
             <ul className="mt-4 space-y-2 text-sm">
               {p.features.map((f) => (
-                <li key={f} className="flex gap-2"><Check className="size-4 text-purple-400 shrink-0" />{f}</li>
+                <li key={f} className="flex gap-2"><Check className="size-4 text-primary shrink-0" />{f}</li>
               ))}
             </ul>
             <Button

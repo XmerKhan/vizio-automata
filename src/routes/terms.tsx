@@ -78,7 +78,7 @@ function TermsPage() {
 
           <h2 className="mt-8 font-display text-2xl font-semibold">9. Contact</h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Questions? Reach us via the <a href="/contact" className="text-purple-400 hover:underline">contact page</a>.
+            Questions? Reach us via the <a href="/contact" className="text-primary hover:underline">contact page</a>.
           </p>
         </article>
       </section>

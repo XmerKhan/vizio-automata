@@ -30,7 +30,7 @@ function Admin() {
     })();
   }, [user, loading, navigate]);
 
-  if (allowed === null) return <div className="p-10"><Loader2 className="animate-spin text-purple-400" /></div>;
+  if (allowed === null) return <div className="p-10"><Loader2 className="animate-spin text-primary" /></div>;
   if (!allowed) return <div className="p-10 text-muted-foreground">Admins only.</div>;
 
   const cards = [

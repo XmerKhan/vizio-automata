@@ -53,7 +53,7 @@ function PricingPage() {
             <ul className="mt-6 grid sm:grid-cols-2 gap-2 text-sm">
               {features.map((f) => (
                 <li key={f} className="flex gap-2">
-                  <Check className="size-4 text-purple-400 shrink-0 mt-0.5" />
+                  <Check className="size-4 text-primary shrink-0 mt-0.5" />
                   <span dangerouslySetInnerHTML={{ __html: f }} />
                 </li>
               ))}

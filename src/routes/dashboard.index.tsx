@@ -106,17 +106,17 @@ function Overview() {
         <h2 className="font-display font-semibold text-lg">Quick actions</h2>
         <div className="mt-4 grid sm:grid-cols-3 gap-3">
           <a href="/dashboard/queue" className="rounded-xl border border-border bg-muted/40 p-4 hover:bg-muted/50 transition">
-            <ListChecks className="size-5 text-purple-400" />
+            <ListChecks className="size-5 text-primary" />
             <div className="font-semibold mt-2">Add prompts</div>
             <div className="text-xs text-muted-foreground">Bulk-paste prompts to the queue</div>
           </a>
           <a href="/dashboard/extension" className="rounded-xl border border-border bg-muted/40 p-4 hover:bg-muted/50 transition">
-            <Chrome className="size-5 text-purple-400" />
+            <Chrome className="size-5 text-primary" />
             <div className="font-semibold mt-2">Install extension</div>
             <div className="text-xs text-muted-foreground">Connect your browser to start automating</div>
           </a>
           <a href="/dashboard/library" className="rounded-xl border border-border bg-muted/40 p-4 hover:bg-muted/50 transition">
-            <Film className="size-5 text-purple-400" />
+            <Film className="size-5 text-primary" />
             <div className="font-semibold mt-2">Browse library</div>
             <div className="text-xs text-muted-foreground">Download finished videos</div>
           </a>

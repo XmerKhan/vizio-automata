@@ -54,7 +54,7 @@ function Hero() {
       <div className="mx-auto max-w-6xl px-4 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <Badge variant="outline" className="border-border bg-muted/50 backdrop-blur text-xs">
-            <Sparkles className="size-3 mr-1 text-purple-400" /> Chrome &amp; Edge Extension · Free during Early Access
+            <Sparkles className="size-3 mr-1 text-primary" /> Chrome &amp; Edge Extension · Free during Early Access
           </Badge>
         </motion.div>
         <motion.h1
@@ -317,7 +317,7 @@ function PricingTeaser() {
           </div>
           <ul className="mt-6 grid sm:grid-cols-2 gap-2 text-sm">
             {features.map((f) => (
-              <li key={f} className="flex gap-2"><Check className="size-4 text-purple-400 shrink-0 mt-0.5" />{f}</li>
+              <li key={f} className="flex gap-2"><Check className="size-4 text-primary shrink-0 mt-0.5" />{f}</li>
             ))}
           </ul>
           <Link to="/extension" className="block mt-7">
@@ -369,7 +369,7 @@ function CTA() {
     <section className="py-24">
       <div className="mx-auto max-w-5xl px-4">
         <div className="glass rounded-3xl p-12 text-center grid-bg">
-          <Layers className="size-10 mx-auto text-purple-400" />
+          <Layers className="size-10 mx-auto text-primary" />
           <h2 className="mt-4 font-display text-4xl font-bold">Stop babysitting prompts.</h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Let Auto Seedance run the queue while you focus on the next idea.

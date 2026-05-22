@@ -28,7 +28,7 @@ export const Route = createFileRoute("/workspace")({ component: WorkspacePage })
 
 const TARGETS = {
   dreamina: { label: "Dreamina", color: "from-pink-500 to-purple-500" },
-  seedance: { label: "Dreamina", color: "from-purple-500 to-blue-500" },
+  seedance: { label: "Dreamina", color: "from-primary to-secondary" },
   jimeng:   { label: "Dreamina", color: "from-blue-500 to-cyan-500" },
 } as const;
 type Platform = keyof typeof TARGETS;
@@ -247,7 +247,7 @@ function WorkspacePage() {
         </Link>
         <div className="h-5 w-px bg-muted" />
         <div className="flex items-center gap-2">
-          <span className={`size-2 rounded-full ${running ? "bg-green-400 animate-pulse" : "bg-white/30"}`} />
+          <span className={`size-2 rounded-full ${running ? "bg-green-400 animate-pulse" : "bg-muted-foreground/40"}`} />
           <span className="font-display font-semibold text-sm">Automation Workspace</span>
         </div>
         <Badge className={`ml-2 border-0 text-[10px] ${extensionConnected ? "bg-green-500/10 text-green-400" : "bg-muted/50 text-muted-foreground"}`}>
@@ -336,7 +336,7 @@ function WorkspacePage() {
                 {jobs.map((j, i) => (
                   <JobRow key={j.id}
                     job={j}
-                    gradient={TARGETS[(j.platform as Platform) ?? "dreamina"]?.color ?? "from-purple-500 to-blue-500"}
+                    gradient={TARGETS[(j.platform as Platform) ?? "dreamina"]?.color ?? "from-primary to-secondary"}
                     canMoveUp={i > 0 && j.status === "pending"}
                     canMoveDown={i < jobs.length - 1 && j.status === "pending"}
                     onRetry={retry} onRemove={remove}
@@ -433,7 +433,7 @@ function WorkspacePage() {
                         <motion.a key={f.id} href={f.url} target="_blank" rel="noreferrer" download
                           layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                           className="group rounded-xl overflow-hidden border border-border bg-muted/40 hover:border-primary/40 transition-colors">
-                          <div className="aspect-video relative bg-gradient-to-br from-purple-500/30 via-blue-500/20 to-black/40">
+                          <div className="aspect-video relative bg-gradient-to-br from-primary/15 via-secondary/15 to-muted">
                             <div className="absolute inset-0 grid place-items-center">
                               <PlayCircle className="size-8 text-white/70 group-hover:text-white transition" />
                             </div>
@@ -667,7 +667,7 @@ function AudioMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
         ) : (
           <div className="rounded-xl border border-border bg-muted/40 p-3 space-y-2">
             <div className="flex items-center gap-2">
-              <Music className="size-4 text-purple-300" />
+              <Music className="size-4 text-primary" />
               <div className="text-xs flex-1 truncate">{audio.name}</div>
               <button onClick={() => setAudio(null)} className="size-6 grid place-items-center rounded hover:bg-muted/50 text-muted-foreground hover:text-red-400">
                 <X className="size-3.5" />
@@ -940,13 +940,13 @@ function ConnectAccountDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="border-border max-w-md p-0 overflow-hidden bg-[#0a0a14]/95 backdrop-blur-2xl">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-32 -left-20 w-72 h-72 rounded-full bg-purple-500/20 blur-3xl" />
+          <div className="absolute -top-32 -left-20 w-72 h-72 rounded-full bg-primary/15 blur-3xl" />
           <div className="absolute -bottom-32 -right-20 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl" />
         </div>
         <div className="relative p-6">
           <DialogHeader className="space-y-2">
-            <div className="size-11 rounded-xl bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-border grid place-items-center mb-1">
-              <LinkIcon className="size-5 text-purple-200" />
+            <div className="size-11 rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15 border border-border grid place-items-center mb-1">
+              <LinkIcon className="size-5 text-primary" />
             </div>
             <DialogTitle className="font-display text-xl">Connect {platformLabel}</DialogTitle>
             <DialogDescription className="text-xs leading-relaxed">
@@ -957,7 +957,7 @@ function ConnectAccountDialog({
             {view === "chooser" ? (
               <motion.div key="chooser" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="mt-5 space-y-2.5">
                 <button onClick={handleGoogle} disabled={busy}
-                  className="w-full group rounded-xl border border-border bg-muted/40 hover:bg-white/[0.06] p-4 flex items-center gap-3 text-left transition disabled:opacity-50">
+                  className="w-full group rounded-xl border border-border bg-muted/40 hover:bg-muted p-4 flex items-center gap-3 text-left transition disabled:opacity-50">
                   <div className="size-10 rounded-lg bg-white grid place-items-center shrink-0"><GoogleG /></div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm">Continue with Google</div>
@@ -966,9 +966,9 @@ function ConnectAccountDialog({
                   {busy ? <Loader2 className="size-4 animate-spin text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground -rotate-90" />}
                 </button>
                 <button onClick={() => setView("email")}
-                  className="w-full group rounded-xl border border-border bg-muted/40 hover:bg-white/[0.06] p-4 flex items-center gap-3 text-left transition">
-                  <div className="size-10 rounded-lg bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-border grid place-items-center shrink-0">
-                    <Mail className="size-4 text-purple-200" />
+                  className="w-full group rounded-xl border border-border bg-muted/40 hover:bg-muted p-4 flex items-center gap-3 text-left transition">
+                  <div className="size-10 rounded-lg bg-gradient-to-br from-primary/15 to-secondary/15 border border-border grid place-items-center shrink-0">
+                    <Mail className="size-4 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm">Email & Password</div>

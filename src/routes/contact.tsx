@@ -31,10 +31,10 @@ function ContactPage() {
 
           <div className="mt-12 grid sm:grid-cols-2 gap-4 text-left">
             <Card className="glass border-0 p-6">
-              <Mail className="size-6 text-purple-400" />
+              <Mail className="size-6 text-primary" />
               <h2 className="font-display font-semibold mt-3">Email support</h2>
               <p className="text-sm text-muted-foreground mt-1">For account questions, billing, or general help.</p>
-              <a href="mailto:support@autoseedance.app" className="text-purple-400 text-sm hover:underline mt-3 inline-block">support@autoseedance.app</a>
+              <a href="mailto:support@autoseedance.app" className="text-primary text-sm hover:underline mt-3 inline-block">support@autoseedance.app</a>
             </Card>
             <Card className="glass border-0 p-6">
               <MessageSquare className="size-6 text-blue-400" />
