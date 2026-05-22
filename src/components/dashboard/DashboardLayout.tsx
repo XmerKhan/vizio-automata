@@ -42,7 +42,7 @@ export function DashboardLayout() {
 
   return (
     <div className="min-h-screen flex bg-background">
-      <aside className="hidden md:flex w-64 shrink-0 flex-col border-r border-white/5 bg-sidebar">
+      <aside className="hidden md:flex w-64 shrink-0 flex-col border-r border-border bg-sidebar">
         <Link to="/" className="px-6 py-5 flex items-center gap-2 font-display font-bold text-lg">
           <span className="size-8 rounded-lg btn-gradient grid place-items-center">
             <Sparkles className="size-4 text-white" />
@@ -55,14 +55,14 @@ export function DashboardLayout() {
             return (
               <Link key={it.to} to={it.to}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition ${
-                  active ? "btn-gradient text-white" : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                  active ? "btn-gradient text-white" : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 }`}>
                 <it.icon className="size-4" /> {it.label}
               </Link>
             );
           })}
         </nav>
-        <div className="p-3 border-t border-white/5">
+        <div className="p-3 border-t border-border">
           <div className="px-3 py-2 text-xs text-muted-foreground truncate">{session.user.email}</div>
           <Button variant="ghost" size="sm" className="w-full justify-start" onClick={async () => { await signOut(); navigate({ to: "/" }); }}>
             <LogOut className="size-4 mr-2" /> Sign out

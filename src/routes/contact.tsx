@@ -25,7 +25,7 @@ function ContactPage() {
       <Navbar />
       <section className="pt-40 pb-24 grid-bg">
         <div className="mx-auto max-w-3xl px-4 text-center">
-          <Badge variant="outline" className="border-white/10 bg-white/5">Contact</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50">Contact</Badge>
           <h1 className="mt-4 font-display text-5xl font-bold">Get in touch.</h1>
           <p className="mt-3 text-muted-foreground">We'd love to hear from you — feedback, bug reports, partnership ideas, anything.</p>
 

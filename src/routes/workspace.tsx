@@ -241,35 +241,35 @@ function WorkspacePage() {
   /* ───────────────────────────── Render ───────────────────────────── */
   return (
     <div className="h-screen w-full flex flex-col bg-background overflow-hidden">
-      <header className="shrink-0 h-14 border-b border-white/5 bg-black/30 backdrop-blur-xl flex items-center px-4 gap-3 z-20">
+      <header className="shrink-0 h-14 border-b border-border bg-card/80 backdrop-blur-xl flex items-center px-4 gap-3 z-20">
         <Link to="/dashboard" className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-sm">
           <ArrowLeft className="size-4" /> Dashboard
         </Link>
-        <div className="h-5 w-px bg-white/10" />
+        <div className="h-5 w-px bg-muted" />
         <div className="flex items-center gap-2">
           <span className={`size-2 rounded-full ${running ? "bg-green-400 animate-pulse" : "bg-white/30"}`} />
           <span className="font-display font-semibold text-sm">Automation Workspace</span>
         </div>
-        <Badge className={`ml-2 border-0 text-[10px] ${extensionConnected ? "bg-green-500/10 text-green-400" : "bg-white/5 text-muted-foreground"}`}>
+        <Badge className={`ml-2 border-0 text-[10px] ${extensionConnected ? "bg-green-500/10 text-green-400" : "bg-muted/50 text-muted-foreground"}`}>
           <Radio className="size-2.5 mr-1" />
           {extensionConnected ? "Extension live" : "Awaiting worker"}
         </Badge>
         <div className="ml-auto flex items-center gap-2">
           <Select value={platform} onValueChange={(v) => setPlatform(v as Platform)}>
-            <SelectTrigger className="w-36 h-9 bg-white/5 border-white/10"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-36 h-9 bg-muted/50 border-border"><SelectValue /></SelectTrigger>
             <SelectContent>
               {Object.entries(TARGETS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
             </SelectContent>
           </Select>
           <Button onClick={() => setConnectOpen(true)} variant="outline"
-            className={`h-9 border-white/10 bg-white/5 ${accounts[platform] ? "text-green-300" : ""}`}>
+            className={`h-9 border-border bg-muted/50 ${accounts[platform] ? "text-green-300" : ""}`}>
             {accounts[platform]
               ? <><ShieldCheck className="size-4 mr-1.5" /> {accounts[platform]?.email}</>
               : <><LinkIcon className="size-4 mr-1.5" /> Connect account</>}
           </Button>
           {!running
             ? <Button onClick={startQueue} className="btn-gradient text-white border-0 h-9"><Play className="size-4 mr-1.5" /> Run queue</Button>
-            : <Button onClick={pauseQueue} variant="outline" className="border-white/10 bg-white/5 h-9"><Pause className="size-4 mr-1.5" /> Pause</Button>}
+            : <Button onClick={pauseQueue} variant="outline" className="border-border bg-muted/50 h-9"><Pause className="size-4 mr-1.5" /> Pause</Button>}
         </div>
       </header>
 
@@ -290,8 +290,8 @@ function WorkspacePage() {
 
       <div className="flex-1 min-h-0 grid grid-cols-[minmax(420px,520px)_1fr]">
         {/* LEFT — composer & settings */}
-        <aside className="border-r border-white/5 bg-sidebar/50 backdrop-blur-xl flex flex-col min-h-0 overflow-hidden">
-          <div className="p-3 grid grid-cols-4 gap-2 border-b border-white/5">
+        <aside className="border-r border-border bg-sidebar backdrop-blur-xl flex flex-col min-h-0 overflow-hidden">
+          <div className="p-3 grid grid-cols-4 gap-2 border-b border-border">
             <Stat icon={Clock}        label="Pending" value={pending.length} tone="yellow" />
             <Stat icon={Activity}     label="Active"  value={active ? 1 : 0} tone="blue" />
             <Stat icon={CheckCircle2} label="Done"    value={completed}      tone="green" />
@@ -300,13 +300,13 @@ function WorkspacePage() {
 
           <div className="flex-1 overflow-y-auto">
             <Tabs value={mode} onValueChange={(v) => setMode(v as ModeId)} className="w-full">
-              <div className="p-3 border-b border-white/5 sticky top-0 bg-sidebar/80 backdrop-blur-xl z-10">
-                <TabsList className="grid grid-cols-4 w-full bg-white/[0.03] border border-white/5 h-auto p-1">
+              <div className="p-3 border-b border-border sticky top-0 bg-sidebar backdrop-blur-xl z-10">
+                <TabsList className="grid grid-cols-4 w-full bg-muted/40 border border-border h-auto p-1">
                   {MODES.map((m) => {
                     const Icon = m.icon;
                     return (
                       <TabsTrigger key={m.id} value={m.id}
-                        className="flex flex-col gap-1 h-auto py-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-purple-500/30 data-[state=active]:to-blue-500/20 data-[state=active]:text-white">
+                        className="flex flex-col gap-1 h-auto py-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary/20 data-[state=active]:to-secondary/20 data-[state=active]:text-foreground">
                         <Icon className="size-4" />
                         <span className="text-[10px] leading-none">{m.label.split(" → ")[0]}</span>
                       </TabsTrigger>
@@ -327,7 +327,7 @@ function WorkspacePage() {
 
             {/* Queue */}
             <div className="flex flex-col">
-              <div className="px-4 py-2.5 flex items-center justify-between border-b border-white/5 sticky top-0 bg-sidebar/80 backdrop-blur-xl z-10">
+              <div className="px-4 py-2.5 flex items-center justify-between border-b border-border sticky top-0 bg-sidebar backdrop-blur-xl z-10">
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Queue ({jobs.length})</div>
                 <button onClick={clearDone} className="text-[10px] text-muted-foreground hover:text-foreground">Clear completed</button>
               </div>
@@ -349,8 +349,8 @@ function WorkspacePage() {
           </div>
 
           {/* Logs */}
-          <div className="shrink-0 border-t border-white/5 h-28 flex flex-col">
-            <div className="px-4 py-2 text-[10px] uppercase tracking-wider text-muted-foreground border-b border-white/5 flex items-center gap-2">
+          <div className="shrink-0 border-t border-border h-28 flex flex-col">
+            <div className="px-4 py-2 text-[10px] uppercase tracking-wider text-muted-foreground border-b border-border flex items-center gap-2">
               <Zap className="size-3" /> Activity
             </div>
             <div ref={logsRef} className="flex-1 overflow-y-auto px-4 py-2 font-mono text-[11px] space-y-1">
@@ -371,8 +371,8 @@ function WorkspacePage() {
 
         {/* RIGHT — live operations & library */}
         <main className="min-w-0 min-h-0 flex flex-col bg-[#0a0a14] p-4 overflow-hidden">
-          <div className="flex-1 min-h-0 rounded-2xl border border-white/10 bg-gradient-to-b from-black/60 to-black/30 overflow-hidden flex flex-col">
-            <div className="shrink-0 h-11 border-b border-white/5 flex items-center px-4 gap-3 bg-black/40">
+          <div className="flex-1 min-h-0 rounded-2xl border border-border bg-gradient-to-b from-card to-card overflow-hidden flex flex-col">
+            <div className="shrink-0 h-11 border-b border-border flex items-center px-4 gap-3 bg-card/80">
               <div className={`size-2 rounded-full bg-gradient-to-r ${TARGETS[platform].color}`} />
               <span className="font-display font-semibold text-sm">{TARGETS[platform].label} · Live Operations</span>
               {accounts[platform] && (
@@ -385,7 +385,7 @@ function WorkspacePage() {
 
             <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-6">
               {/* Active job card */}
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-transparent p-6 relative overflow-hidden">
+              <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent p-6 relative overflow-hidden">
                 <AnimatedGrid />
                 <div className="relative">
                   <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Active job</div>
@@ -395,7 +395,7 @@ function WorkspacePage() {
                       <div className="mt-1 text-xs text-muted-foreground flex items-center gap-2">
                         <span>{MODES.find((m) => m.id === active.mode)?.label ?? active.mode}</span>
                         <span>·</span>
-                        <Badge className="bg-white/5 border-0 text-[10px] capitalize">{active.status}</Badge>
+                        <Badge className="bg-muted/50 border-0 text-[10px] capitalize">{active.status}</Badge>
                       </div>
                       <div className="mt-5">
                         <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
@@ -414,7 +414,7 @@ function WorkspacePage() {
               </div>
 
               {/* Completed library */}
-              <div className="rounded-2xl border border-white/10 bg-black/40 p-6">
+              <div className="rounded-2xl border border-border bg-card/80 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <div className="font-display font-semibold">Recent results</div>
@@ -423,7 +423,7 @@ function WorkspacePage() {
                   <Link to="/dashboard/library" className="text-xs text-muted-foreground hover:text-foreground">View all →</Link>
                 </div>
                 {completedFiles.length === 0 ? (
-                  <div className="text-xs text-muted-foreground text-center py-8 border border-dashed border-white/10 rounded-xl">
+                  <div className="text-xs text-muted-foreground text-center py-8 border border-dashed border-border rounded-xl">
                     No completed videos yet.
                   </div>
                 ) : (
@@ -432,13 +432,13 @@ function WorkspacePage() {
                       {completedFiles.map((f) => (
                         <motion.a key={f.id} href={f.url} target="_blank" rel="noreferrer" download
                           layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                          className="group rounded-xl overflow-hidden border border-white/10 bg-white/[0.02] hover:border-purple-400/30 transition-colors">
+                          className="group rounded-xl overflow-hidden border border-border bg-muted/40 hover:border-primary/40 transition-colors">
                           <div className="aspect-video relative bg-gradient-to-br from-purple-500/30 via-blue-500/20 to-black/40">
                             <div className="absolute inset-0 grid place-items-center">
                               <PlayCircle className="size-8 text-white/70 group-hover:text-white transition" />
                             </div>
-                            <Badge className="absolute top-2 left-2 bg-black/60 border-0 text-[10px] capitalize">{f.platform ?? platform}</Badge>
-                            <div className="absolute top-2 right-2 size-7 grid place-items-center rounded bg-black/60 opacity-0 group-hover:opacity-100 transition">
+                            <Badge className="absolute top-2 left-2 bg-foreground/70 border-0 text-[10px] capitalize">{f.platform ?? platform}</Badge>
+                            <div className="absolute top-2 right-2 size-7 grid place-items-center rounded bg-foreground/70 opacity-0 group-hover:opacity-100 transition">
                               <Download className="size-3.5" />
                             </div>
                           </div>
@@ -453,7 +453,7 @@ function WorkspacePage() {
                 )}
               </div>
 
-              <div className="rounded-xl border border-dashed border-white/10 bg-white/[0.02] p-4 text-xs text-muted-foreground flex items-start gap-3">
+              <div className="rounded-xl border border-dashed border-border bg-muted/40 p-4 text-xs text-muted-foreground flex items-start gap-3">
                 <Radio className="size-4 mt-0.5 text-muted-foreground" />
                 <div>
                   Jobs are dispatched to the <span className="text-foreground font-medium">Auto Seedance browser extension</span> or your generation API.
@@ -477,7 +477,7 @@ function TextMode({ onEnqueue }: { userId?: string; onEnqueue: (p: { prompt: str
       <Field label="Prompt">
         <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={5}
           placeholder="A whale flying through neon clouds, cinematic, slow dolly in…"
-          className="bg-white/5 border-white/10 text-sm resize-none" />
+          className="bg-muted/50 border-border text-sm resize-none" />
       </Field>
       <Button className="w-full btn-gradient text-white border-0" disabled={!prompt.trim()}
         onClick={() => { onEnqueue({ prompt: prompt.trim() }); setPrompt(""); }}>
@@ -526,7 +526,7 @@ function ImageMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
           onDragOver={(e) => { e.preventDefault(); }}
           onDrop={(e) => { e.preventDefault(); handleFiles(e.dataTransfer.files); }}
           onClick={() => inputRef.current?.click()}
-          className="rounded-xl border-2 border-dashed border-white/10 bg-white/[0.02] hover:border-purple-400/40 transition cursor-pointer p-6 text-center"
+          className="rounded-xl border-2 border-dashed border-border bg-muted/40 hover:border-primary/40 transition cursor-pointer p-6 text-center"
         >
           <Upload className="size-5 mx-auto text-muted-foreground mb-2" />
           <div className="text-xs text-muted-foreground">
@@ -540,19 +540,19 @@ function ImageMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
       {files.length > 0 && (
         <div className="grid grid-cols-3 gap-2">
           {files.map((f, i) => (
-            <div key={f.id} className="relative rounded-lg overflow-hidden border border-white/10 group">
+            <div key={f.id} className="relative rounded-lg overflow-hidden border border-border group">
               <img src={f.preview} alt={f.name} className="w-full aspect-square object-cover" />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition flex items-end justify-between p-1">
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100">
-                  <button onClick={() => move(i, -1)} className="size-6 grid place-items-center rounded bg-black/70 text-white"><ArrowUp className="size-3" /></button>
-                  <button onClick={() => move(i, 1)} className="size-6 grid place-items-center rounded bg-black/70 text-white"><ArrowDown className="size-3" /></button>
+                  <button onClick={() => move(i, -1)} className="size-6 grid place-items-center rounded bg-foreground/80 text-white"><ArrowUp className="size-3" /></button>
+                  <button onClick={() => move(i, 1)} className="size-6 grid place-items-center rounded bg-foreground/80 text-white"><ArrowDown className="size-3" /></button>
                 </div>
                 <button onClick={() => setFiles((p) => p.filter((x) => x.id !== f.id))}
-                  className="size-6 grid place-items-center rounded bg-black/70 text-red-300 opacity-0 group-hover:opacity-100">
+                  className="size-6 grid place-items-center rounded bg-foreground/80 text-red-300 opacity-0 group-hover:opacity-100">
                   <X className="size-3" />
                 </button>
               </div>
-              <div className="absolute top-1 left-1 size-5 grid place-items-center rounded bg-black/70 text-[10px]">{i + 1}</div>
+              <div className="absolute top-1 left-1 size-5 grid place-items-center rounded bg-foreground/80 text-[10px]">{i + 1}</div>
             </div>
           ))}
         </div>
@@ -561,7 +561,7 @@ function ImageMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
       <Field label="Prompt (optional)">
         <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={3}
           placeholder="Describe the motion or scene…"
-          className="bg-white/5 border-white/10 text-sm resize-none" />
+          className="bg-muted/50 border-border text-sm resize-none" />
       </Field>
 
       <Button className="w-full btn-gradient text-white border-0" disabled={files.length === 0}
@@ -601,25 +601,25 @@ function IngredientsMode({ onEnqueue }: { userId?: string; onEnqueue: (p: { prom
       <Field label="Scene prompt">
         <Textarea value={scene} onChange={(e) => setScene(e.target.value)} rows={2}
           placeholder="A lone astronaut walking on a glacier"
-          className="bg-white/5 border-white/10 text-sm resize-none" />
+          className="bg-muted/50 border-border text-sm resize-none" />
       </Field>
       <Field label="Objects (comma-separated)">
         <Input value={objects} onChange={(e) => setObjects(e.target.value)}
-          placeholder="helmet, flag, drone" className="bg-white/5 border-white/10 h-9 text-sm" />
+          placeholder="helmet, flag, drone" className="bg-muted/50 border-border h-9 text-sm" />
       </Field>
       <div className="grid grid-cols-2 gap-2">
         <Field label="Style">
           <Input value={style} onChange={(e) => setStyle(e.target.value)} placeholder="cinematic"
-            className="bg-white/5 border-white/10 h-9 text-sm" />
+            className="bg-muted/50 border-border h-9 text-sm" />
         </Field>
         <Field label="Environment">
           <Input value={environment} onChange={(e) => setEnvironment(e.target.value)} placeholder="arctic dusk"
-            className="bg-white/5 border-white/10 h-9 text-sm" />
+            className="bg-muted/50 border-border h-9 text-sm" />
         </Field>
       </div>
       <Field label="Motion direction">
         <Input value={motion} onChange={(e) => setMotion(e.target.value)} placeholder="slow dolly forward"
-          className="bg-white/5 border-white/10 h-9 text-sm" />
+          className="bg-muted/50 border-border h-9 text-sm" />
       </Field>
       <Button className="w-full btn-gradient text-white border-0" disabled={!canSubmit} onClick={submit}>
         <Plus className="size-4 mr-1.5" /> Add to queue
@@ -657,7 +657,7 @@ function AudioMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); handleFile(e.dataTransfer.files?.[0] ?? null); }}
             onClick={() => inputRef.current?.click()}
-            className="rounded-xl border-2 border-dashed border-white/10 bg-white/[0.02] hover:border-purple-400/40 transition cursor-pointer p-6 text-center"
+            className="rounded-xl border-2 border-dashed border-border bg-muted/40 hover:border-primary/40 transition cursor-pointer p-6 text-center"
           >
             <Music className="size-5 mx-auto text-muted-foreground mb-2" />
             <div className="text-xs text-muted-foreground">{uploading ? "Uploading…" : "Drop audio file or click to browse"}</div>
@@ -665,11 +665,11 @@ function AudioMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
               onChange={(e) => handleFile(e.target.files?.[0] ?? null)} />
           </div>
         ) : (
-          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 space-y-2">
+          <div className="rounded-xl border border-border bg-muted/40 p-3 space-y-2">
             <div className="flex items-center gap-2">
               <Music className="size-4 text-purple-300" />
               <div className="text-xs flex-1 truncate">{audio.name}</div>
-              <button onClick={() => setAudio(null)} className="size-6 grid place-items-center rounded hover:bg-white/5 text-muted-foreground hover:text-red-400">
+              <button onClick={() => setAudio(null)} className="size-6 grid place-items-center rounded hover:bg-muted/50 text-muted-foreground hover:text-red-400">
                 <X className="size-3.5" />
               </button>
             </div>
@@ -681,13 +681,13 @@ function AudioMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
       <Field label="Script / prompt (optional)">
         <Textarea value={script} onChange={(e) => setScript(e.target.value)} rows={3}
           placeholder="Spoken script or scene description…"
-          className="bg-white/5 border-white/10 text-sm resize-none" />
+          className="bg-muted/50 border-border text-sm resize-none" />
       </Field>
 
       <div className="grid grid-cols-2 gap-2">
         <Field label="Voice">
           <Select value={voice} onValueChange={setVoice}>
-            <SelectTrigger className="h-9 bg-white/5 border-white/10 text-sm"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="h-9 bg-muted/50 border-border text-sm"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="auto">Auto-detect</SelectItem>
               <SelectItem value="natural">Natural</SelectItem>
@@ -697,7 +697,7 @@ function AudioMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
         </Field>
         <Field label="Lipsync quality">
           <Select value={lipsync} onValueChange={setLipsync}>
-            <SelectTrigger className="h-9 bg-white/5 border-white/10 text-sm"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="h-9 bg-muted/50 border-border text-sm"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="fast">Fast</SelectItem>
               <SelectItem value="balanced">Balanced</SelectItem>
@@ -724,8 +724,8 @@ function AudioMode({ userId, onEnqueue }: { userId?: string; onEnqueue: (p: { pr
 function SettingsPanel({ settings, onChange }: { settings: GenSettings; onChange: (p: Partial<GenSettings>) => void }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-y border-white/5">
-      <button onClick={() => setOpen((v) => !v)} className="w-full px-4 py-3 flex items-center justify-between hover:bg-white/[0.02]">
+    <div className="border-y border-border">
+      <button onClick={() => setOpen((v) => !v)} className="w-full px-4 py-3 flex items-center justify-between hover:bg-muted/40">
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Global generation settings</span>
         <ChevronDown className={`size-3.5 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
@@ -739,7 +739,7 @@ function SettingsPanel({ settings, onChange }: { settings: GenSettings; onChange
               <div className="grid grid-cols-2 gap-2">
                 <Field label="Resolution">
                   <Select value={settings.resolution} onValueChange={(v) => onChange({ resolution: v as any })}>
-                    <SelectTrigger className="h-8 bg-white/5 border-white/10 text-xs"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="h-8 bg-muted/50 border-border text-xs"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="720p">720p</SelectItem>
                       <SelectItem value="1080p">1080p</SelectItem>
@@ -748,31 +748,31 @@ function SettingsPanel({ settings, onChange }: { settings: GenSettings; onChange
                 </Field>
                 <Field label="Aspect ratio">
                   <Select value={settings.aspect} onValueChange={(v) => onChange({ aspect: v })}>
-                    <SelectTrigger className="h-8 bg-white/5 border-white/10 text-xs"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="h-8 bg-muted/50 border-border text-xs"><SelectValue /></SelectTrigger>
                     <SelectContent>{ASPECT_RATIOS.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
                   </Select>
                 </Field>
               </div>
               <Field label="Style preset">
                 <Select value={settings.style} onValueChange={(v) => onChange({ style: v })}>
-                  <SelectTrigger className="h-8 bg-white/5 border-white/10 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="h-8 bg-muted/50 border-border text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>{STYLE_PRESETS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
                 </Select>
               </Field>
               <Field label="Negative prompt">
                 <Textarea value={settings.negative} onChange={(e) => onChange({ negative: e.target.value })}
                   placeholder="blurry, low quality, watermark…" rows={2}
-                  className="bg-white/5 border-white/10 text-xs resize-none" />
+                  className="bg-muted/50 border-border text-xs resize-none" />
               </Field>
               <div className="grid grid-cols-2 gap-2">
                 <Field label="Seed (advanced)">
                   <Input value={settings.seed} onChange={(e) => onChange({ seed: e.target.value })} placeholder="random"
-                    className="h-8 bg-white/5 border-white/10 text-xs" />
+                    className="h-8 bg-muted/50 border-border text-xs" />
                 </Field>
                 <Field label="Batch / prompt">
                   <Input type="number" min={1} max={8} value={settings.batch}
                     onChange={(e) => onChange({ batch: Math.max(1, Math.min(8, parseInt(e.target.value) || 1)) })}
-                    className="h-8 bg-white/5 border-white/10 text-xs" />
+                    className="h-8 bg-muted/50 border-border text-xs" />
                 </Field>
               </div>
             </div>
@@ -834,17 +834,17 @@ function JobRow({
 
   return (
     <motion.div layout initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-      className={`rounded-lg bg-white/[0.02] border border-white/5 border-l-2 ${tone} p-2`}>
+      className={`rounded-lg bg-muted/40 border border-border border-l-2 ${tone} p-2`}>
       <div className="flex items-start gap-2">
         <div className={`shrink-0 w-14 h-14 rounded-md bg-gradient-to-br ${gradient} relative overflow-hidden grid place-items-center`}>
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-card/80" />
           {job.media_urls?.[0] && /\.(png|jpg|jpeg|webp|gif)/i.test(job.media_urls[0])
             ? <img src={job.media_urls[0]} alt="" className="absolute inset-0 size-full object-cover" />
             : isRunning ? <Loader2 className="size-4 text-white relative animate-spin" />
             : isDone    ? <PlayCircle className="size-5 text-white relative" />
             : <Film className="size-4 text-white/70 relative" />}
           {isRunning && (
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/60">
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-foreground/70">
               <div className="h-full bg-white transition-all" style={{ width: `${job.progress}%` }} />
             </div>
           )}
@@ -867,10 +867,10 @@ function JobRow({
           {job.error && <div className="text-[10px] text-red-400 mt-1 truncate">{job.error}</div>}
         </div>
         <div className="flex flex-col gap-0.5">
-          {canMoveUp && <button onClick={onMoveUp} className="size-6 grid place-items-center rounded hover:bg-white/5 text-muted-foreground" title="Move up"><ArrowUp className="size-3" /></button>}
-          {canMoveDown && <button onClick={onMoveDown} className="size-6 grid place-items-center rounded hover:bg-white/5 text-muted-foreground" title="Move down"><ArrowDown className="size-3" /></button>}
-          {isFailed && <button onClick={() => onRetry(job.id)} className="size-6 grid place-items-center rounded hover:bg-white/5 text-muted-foreground hover:text-foreground" title="Retry"><RotateCcw className="size-3" /></button>}
-          <button onClick={() => onRemove(job.id)} className="size-6 grid place-items-center rounded hover:bg-white/5 text-muted-foreground hover:text-red-400" title="Remove"><Trash2 className="size-3" /></button>
+          {canMoveUp && <button onClick={onMoveUp} className="size-6 grid place-items-center rounded hover:bg-muted/50 text-muted-foreground" title="Move up"><ArrowUp className="size-3" /></button>}
+          {canMoveDown && <button onClick={onMoveDown} className="size-6 grid place-items-center rounded hover:bg-muted/50 text-muted-foreground" title="Move down"><ArrowDown className="size-3" /></button>}
+          {isFailed && <button onClick={() => onRetry(job.id)} className="size-6 grid place-items-center rounded hover:bg-muted/50 text-muted-foreground hover:text-foreground" title="Retry"><RotateCcw className="size-3" /></button>}
+          <button onClick={() => onRemove(job.id)} className="size-6 grid place-items-center rounded hover:bg-muted/50 text-muted-foreground hover:text-red-400" title="Remove"><Trash2 className="size-3" /></button>
         </div>
       </div>
     </motion.div>
@@ -938,14 +938,14 @@ function ConnectAccountDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="border-white/10 max-w-md p-0 overflow-hidden bg-[#0a0a14]/95 backdrop-blur-2xl">
+      <DialogContent className="border-border max-w-md p-0 overflow-hidden bg-[#0a0a14]/95 backdrop-blur-2xl">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-32 -left-20 w-72 h-72 rounded-full bg-purple-500/20 blur-3xl" />
           <div className="absolute -bottom-32 -right-20 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl" />
         </div>
         <div className="relative p-6">
           <DialogHeader className="space-y-2">
-            <div className="size-11 rounded-xl bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-white/10 grid place-items-center mb-1">
+            <div className="size-11 rounded-xl bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-border grid place-items-center mb-1">
               <LinkIcon className="size-5 text-purple-200" />
             </div>
             <DialogTitle className="font-display text-xl">Connect {platformLabel}</DialogTitle>
@@ -957,7 +957,7 @@ function ConnectAccountDialog({
             {view === "chooser" ? (
               <motion.div key="chooser" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="mt-5 space-y-2.5">
                 <button onClick={handleGoogle} disabled={busy}
-                  className="w-full group rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] p-4 flex items-center gap-3 text-left transition disabled:opacity-50">
+                  className="w-full group rounded-xl border border-border bg-muted/40 hover:bg-white/[0.06] p-4 flex items-center gap-3 text-left transition disabled:opacity-50">
                   <div className="size-10 rounded-lg bg-white grid place-items-center shrink-0"><GoogleG /></div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm">Continue with Google</div>
@@ -966,8 +966,8 @@ function ConnectAccountDialog({
                   {busy ? <Loader2 className="size-4 animate-spin text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground -rotate-90" />}
                 </button>
                 <button onClick={() => setView("email")}
-                  className="w-full group rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] p-4 flex items-center gap-3 text-left transition">
-                  <div className="size-10 rounded-lg bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-white/10 grid place-items-center shrink-0">
+                  className="w-full group rounded-xl border border-border bg-muted/40 hover:bg-white/[0.06] p-4 flex items-center gap-3 text-left transition">
+                  <div className="size-10 rounded-lg bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-border grid place-items-center shrink-0">
                     <Mail className="size-4 text-purple-200" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -994,14 +994,14 @@ function ConnectAccountDialog({
                 <div className="space-y-1.5">
                   <Label htmlFor="acc-email" className="text-xs">Email</Label>
                   <Input id="acc-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                    placeholder={`you@${platform}.com`} className="bg-white/5 border-white/10 h-10" required />
+                    placeholder={`you@${platform}.com`} className="bg-muted/50 border-border h-10" required />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="acc-pw" className="text-xs">Password</Label>
                   <div className="relative">
                     <Input id="acc-pw" type={showPw ? "text" : "password"} autoComplete="current-password"
                       value={password} onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••" className="bg-white/5 border-white/10 h-10 pr-10" />
+                      placeholder="••••••••" className="bg-muted/50 border-border h-10 pr-10" />
                     <button type="button" onClick={() => setShowPw((v) => !v)}
                       className="absolute right-2 top-1/2 -translate-y-1/2 size-7 grid place-items-center rounded text-muted-foreground hover:text-foreground">
                       {showPw ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}

@@ -54,7 +54,7 @@ function ExtensionPage() {
           </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="border-white/10 bg-white/5" onClick={refresh}><RefreshCw className="size-4 mr-2" /> Refresh</Button>
+          <Button variant="outline" className="border-border bg-muted/50" onClick={refresh}><RefreshCw className="size-4 mr-2" /> Refresh</Button>
           <Button className="btn-gradient text-white border-0"><Download className="size-4 mr-2" /> Install extension</Button>
         </div>
       </Card>
@@ -76,7 +76,7 @@ function ExtensionPage() {
       </div>
 
       <Card className="glass border-0 p-6 mt-8">
-        <Badge variant="outline" className="border-white/10 bg-white/5">Workflow</Badge>
+        <Badge variant="outline" className="border-border bg-muted/50">Workflow</Badge>
         <h2 className="font-display text-2xl font-bold mt-3">How a job flows</h2>
         <div className="mt-6 flex flex-wrap items-center gap-2 text-sm">
           {["You add prompt", "Saved to queue", "Extension picks it up", "Drives Dreamina", "Output downloaded", "Synced to library"].map((s, i, arr) => (

@@ -83,31 +83,31 @@ function AuthPage() {
           <p className="text-sm text-muted-foreground text-center mt-1">
             {mode === "signin" ? "Sign in to your dashboard" : "Start automating in minutes"}
           </p>
-          <Button onClick={handleGoogle} disabled={loading} variant="outline" className="w-full mt-6 border-white/10 bg-white/5">
+          <Button onClick={handleGoogle} disabled={loading} variant="outline" className="w-full mt-6 border-border bg-muted/50">
             <GoogleIcon /> Continue with Google
           </Button>
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-            <div className="h-px bg-white/10 flex-1" /> or <div className="h-px bg-white/10 flex-1" />
+            <div className="h-px bg-muted flex-1" /> or <div className="h-px bg-muted flex-1" />
           </div>
           <form onSubmit={handleEmail} className="space-y-4">
             {mode === "signup" && (
               <div>
                 <Label>Display name</Label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex" required className="mt-1 bg-white/5 border-white/10" />
+                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex" required className="mt-1 bg-muted/50 border-border" />
               </div>
             )}
             <div>
               <Label>Email</Label>
               <div className="relative mt-1">
                 <Mail className="size-4 text-muted-foreground absolute left-3 top-3" />
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@studio.com" required className="pl-9 bg-white/5 border-white/10" />
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@studio.com" required className="pl-9 bg-muted/50 border-border" />
               </div>
             </div>
             <div>
               <Label>Password</Label>
               <div className="relative mt-1">
                 <Lock className="size-4 text-muted-foreground absolute left-3 top-3" />
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required minLength={6} className="pl-9 bg-white/5 border-white/10" />
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required minLength={6} className="pl-9 bg-muted/50 border-border" />
               </div>
             </div>
             <Button type="submit" disabled={loading} className="w-full btn-gradient text-white border-0">

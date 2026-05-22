@@ -48,7 +48,7 @@ function SettingsPage() {
       <Card className="glass border-0 p-6 mt-6 space-y-6">
         <Row label="Theme">
           <Select value={s.theme} onValueChange={(v) => setS({ ...s, theme: v })}>
-            <SelectTrigger className="bg-white/5 border-white/10 w-44"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="bg-muted/50 border-border w-44"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="dark">Dark</SelectItem>
               <SelectItem value="light">Light</SelectItem>
@@ -59,7 +59,7 @@ function SettingsPage() {
 
         <Row label="Default platform">
           <Select value={s.default_platform} onValueChange={(v) => setS({ ...s, default_platform: v })}>
-            <SelectTrigger className="bg-white/5 border-white/10 w-44"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="bg-muted/50 border-border w-44"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="dreamina">Dreamina</SelectItem>
             </SelectContent>
@@ -68,7 +68,7 @@ function SettingsPage() {
 
         <Row label="Automation speed">
           <Select value={s.automation_speed} onValueChange={(v) => setS({ ...s, automation_speed: v })}>
-            <SelectTrigger className="bg-white/5 border-white/10 w-44"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="bg-muted/50 border-border w-44"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="careful">Careful</SelectItem>
               <SelectItem value="normal">Normal</SelectItem>
@@ -90,7 +90,7 @@ function SettingsPage() {
 
         <div>
           <Label>Download folder</Label>
-          <Input value={s.download_path ?? ""} onChange={(e) => setS({ ...s, download_path: e.target.value })} className="mt-1 bg-white/5 border-white/10" />
+          <Input value={s.download_path ?? ""} onChange={(e) => setS({ ...s, download_path: e.target.value })} className="mt-1 bg-muted/50 border-border" />
         </div>
 
         <Button onClick={save} disabled={loading} className="btn-gradient text-white border-0">

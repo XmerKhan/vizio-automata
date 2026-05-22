@@ -41,7 +41,7 @@ function Library() {
                 <div className="text-sm line-clamp-2">{f.prompt_text ?? "Untitled"}</div>
                 <div className="text-xs text-muted-foreground mt-1">{new Date(f.created_at).toLocaleString()}</div>
                 <a href={f.url} download target="_blank" rel="noreferrer" className="block mt-3">
-                  <Button variant="outline" size="sm" className="w-full border-white/10 bg-white/5"><Download className="size-4 mr-2" /> Download</Button>
+                  <Button variant="outline" size="sm" className="w-full border-border bg-muted/50"><Download className="size-4 mr-2" /> Download</Button>
                 </a>
               </div>
             </Card>

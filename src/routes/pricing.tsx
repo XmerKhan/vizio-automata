@@ -35,7 +35,7 @@ function PricingPage() {
       <Navbar />
       <section className="pt-40 pb-24 grid-bg">
         <div className="mx-auto max-w-3xl px-4 text-center">
-          <Badge variant="outline" className="border-white/10 bg-white/5">Pricing</Badge>
+          <Badge variant="outline" className="border-border bg-muted/50">Pricing</Badge>
           <h1 className="mt-4 font-display text-5xl font-bold">Currently Free During Early Access</h1>
           <p className="mt-3 text-muted-foreground">No credit card. No paid tiers. Just install and automate.</p>
 

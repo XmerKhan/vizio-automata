@@ -18,7 +18,7 @@ export function Navbar() {
               <Sparkles className="size-4 text-white" />
             </span>
             <span className="gradient-text">Auto Seedance</span>
-            <span className="hidden sm:inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full border border-white/10 bg-white/5 text-muted-foreground uppercase tracking-wider ml-1">
+            <span className="hidden sm:inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full border border-border bg-muted/50 text-muted-foreground uppercase tracking-wider ml-1">
               Chrome &amp; Edge
             </span>
           </Link>
